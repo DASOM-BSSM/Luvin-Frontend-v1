@@ -49,3 +49,4 @@ app-example
 
 # macOS
 .DS_Store
+._*
