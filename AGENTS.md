@@ -1,299 +1,308 @@
 # CLAUDE.md
 
-Luvin is a mobile-based bread-themed AI dating simulation app. The core concept is **"Love is all about timing"** — users' romantic tendencies are analyzed and expressed as bread types, and an AI avatar ("분신") that mirrors the user's personality enters a dating simulation inspired by Netflix's *Single's Inferno*. The entire service experience is expressed through a bread-baking metaphor.
+Luvin is a mobile-based bread-themed AI dating simulation app. The core concept is **"Love is all about timing"** — users' romantic tendencies are analyzed and expressed as bread types, and an AI avatar ("분신") that mirrors the user's personality participates in a dating simulation inspired by Netflix's *Single's Inferno*.
 
 ---
 
-# MCP Servers
-
-## Figma Dev Mode MCP Rules
-
-- The Figma Dev Mode MCP Server provides an assets endpoint which can serve image and SVG assets
-- IMPORTANT: If the Figma Dev Mode MCP Server returns a localhost source for an image or an SVG, use that image or SVG source directly
-- IMPORTANT: DO NOT import/add new icon packages — all assets should come from the Figma payload
-- IMPORTANT: Do NOT use or create placeholders if a localhost source is provided
+> ## ALWAYS READ FIRST BEFORE STARTING ANY TASK
+>
+> 1. **Read the Directory Architecture section** in this file before writing any code
+> 2. **Read the Figma design** before implementing any UI — do NOT assume or hardcode design values
+> 3. **Check `package.json`** for exact dependency versions before installing anything
 
 ---
 
-# Tech Spec
+# 1. Platform Principles
 
-Please check dependencies in `./package.json`.
-
-- **Framework**: React Native, Expo, TypeScript
-- **State Management**: Zustand
-- **Styling**: NativeWind (Tailwind CSS v3)
-- **API & Async State**: TanStack Query + Axios
-- **Animation**: Motion
-- **Auth**: Google OAuth only (no separate sign-up flow)
-- **Package Manager**: pnpm
+- **Target platforms**: iOS and Android
+- Ensure identical UX, interface, and behavior on both platforms
+- Avoid platform-specific styles or logic that cause visual inconsistencies unless strictly necessary (e.g. SafeArea padding)
 
 ---
 
-# Design System
+# 2. Tech Stack
 
-## Colors
+> Always verify exact versions in `package.json` before use. Do not upgrade packages without confirmation.
 
-| Token | Value | Usage |
+| Category | Library | Notes |
 |---|---|---|
-| Background | `#16130F` | App-wide dark background (inside-of-an-oven feel) |
-| Surface | `#1E1A15` | Cards, panels |
-| Text Primary | `#F0EAE0` | Main text |
-| Text Secondary | `#9C8E7E` | Subtext, labels |
-| Accent (Crust) | `#C8922A` | CTA, active states, temperature gauge |
-| Danger (Burned) | `#C4402A` | Warnings, burned state |
-| Cold (Raw) | `#6E8A96` | Unready state, cold relationships |
+| Framework | `expo` | Check `package.json` for version |
+| Routing | `expo-router` | File-based routing under `app/` |
+| Runtime | `react-native`, `typescript`, `react` | Check `package.json` for version |
+| Styling | `nativewind` (NativeWind v4) | Tailwind CSS v3 compatible |
+| State Management | `zustand` | Global state |
+| API & Async State | `@tanstack/react-query` + `axios` | Data fetching and caching |
+| Auth | Google OAuth only | No separate sign-up flow |
 
-## Temperature Spectrum (Core UI Language)
+---
 
-All relationship states are expressed through temperature:
+# 3. Package & Dependency Rules
 
-```
-RAW ──── MILD ──── WARM ──── HOT ──── BURNED
-덜 익음   미지근   적정온도   과열직전   타버림
-```
+- **Package manager: `npm`** — do NOT use `pnpm`, `yarn`, or `bun`
+- Use the following command when adding new packages to ensure Expo SDK compatibility:
+  ```bash
+  npx expo install <package-name>
+  ```
+- Do not upgrade any package version without explicit confirmation from the user
+- If a package is missing or version conflicts arise, report it and ask before resolving
+
+---
+
+# 4. Design System
+
+> **All design values (colors, spacing, typography, border radius, etc.) must be read from Figma.**
+> Do NOT hardcode or assume any design tokens.
+>
+> - Design tokens are stored in `src/constants/color.ts`
+> - If a token is missing in `color.ts`, read it from Figma and add it before using
+> - **Figma File Key**: Do NOT hardcode anywhere. Ask the user for the file key before querying Figma.
+
+## Figma MCP Rules
+
+- Always read the Figma design before implementing any screen or component
+- If the Figma MCP returns a localhost URL for an image or SVG, use it directly
+- Do NOT add new icon packages — all icon assets come from Figma
+- Do NOT create placeholder assets — use the actual Figma assets
+- If Figma design is unavailable for a component, **ask before proceeding**
 
 ## Typography
 
-| Role | Font | Usage |
-|---|---|---|
-| Display / Headline | `Yde Street Bold` | Brand name, page titles, onboarding copy |
-| Body | `Pretendard Regular/Medium` | General text, descriptions |
-| Data / System | `DM Mono Regular` | Temperature values, timers, status codes |
+Only two fonts are used in Luvin:
 
-## Visual Style
-
-- Dark background (#16130F) — oven interior feel, not a cozy bakery
-- Bread characters exist but are not the main focus — the **system** is the main focus
-- Temperature gauge is the most important recurring UI component
-- Left-border status cards for quick state recognition
-- Asymmetric grid layout — large numbers, small labels
-- Tone: analytical, restrained warmth — NOT cute bakery, NOT pink romance app
-
----
-
-# UX Vocabulary
-
-Luvin uses bread-baking metaphors for all UX copy. Always follow this vocabulary:
-
-| General Term | Luvin Term |
+| Font | Usage |
 |---|---|
-| Sign up / Start | 반죽 시작하기 |
-| Survey | 반죽 만들기 |
-| Survey result | 굽기 결과 |
-| My profile / status | 내 반죽 정보 |
-| AI avatar creation | 분신 굽기 |
-| Matching start | 오븐 투입 |
-| In progress | 굽는 중 |
-| Completed | 완성 |
-| Error / Failed | 타버렸습니다 |
-| Waiting | 예열 중 |
-| Notification | 오븐 신호 |
-| Like / Empathy | 온도 올리기 |
-| Comment | 메모 |
-| Community | 베이킹 노트 |
-| Good compatibility | 같은 온도에서 굽힙니다 |
-| Bad compatibility | 온도가 맞지 않습니다 |
-| Overheat (strong emotion) | 과열 감지됨 |
-| Relationship cooling | 식어가는 중 |
-| Single's Inferno feature | 러빈지옥 (Luvin 지옥) |
+| `Yde Street Bold` | Headlines, brand elements, display text |
+| `Yde Street Light` | Body text, descriptions, subtext |
+
+Do NOT use any other font. All font usage details are defined in Figma.
 
 ---
 
-# Service Structure
+# 5. Service Structure
 
-## 1. Onboarding
+## Onboarding
 
-- Dark background with oven illustration
-- Copy: `"사랑은 타이밍이에요 / 너무 빠르면 덜 익고, 너무 늦으면 타버리니깐요"`
-- Single CTA button: `"오븐 예열 시작하기"` → triggers Google OAuth
-- No separate sign-up screen — first Google login automatically creates account
-- After login: new users → survey / existing users → home
+- Single CTA: `"나의 오븐 예열하기"` triggers Google OAuth
+- No separate sign-up screen — first login auto-creates account
+- After login: new users go to survey / existing users go to home
 
-## 2. Main (Home)
+## Main (Home)
 
-**Before survey:**
-- Headline: `"타이밍을 놓치기 전에,"`
-- Subheadline: `"당신의 온도에 맞는 빵을 만나 서로의 가장 좋은 모습으로 익어가요"`
-- CTA: survey entry button
+**Before survey:** Headline + survey CTA
 
-**After survey:**
-- My dough status card with live temperature gauge
-- Today's balance game question
-- Bread type trend ranking (horizontal scroll)
-- 베이킹 노트 preview
+**After survey:** My dough status card, today's balance game, new Luvin 지옥 episode
 
-## 3. Survey (반죽 만들기, 20 Questions)
+## Survey (반죽 만들기, 20 Questions)
 
-- Format: A / B / C choice (not Likert scale)
-- Measures 13 psychological variables across 6 core + 7 behavioral dimensions:
+- Format: A / B / C choice
+- Measures 13 psychological variables (6 core + 7 behavioral)
   - **Core**: 애정표현성, 관계불안도, 관계회피성, 감정동조성, 관계주도성, 현실우선성
   - **Behavioral**: 확신요구도, 질투반응성, 관계에너지의존도, 감정억제성, 갈등직면성, 관계속도감, 관심표현빈도
-- Scoring: starts at 50 for each variable, each answer adds/subtracts points
-- Result mapping: Euclidean distance in 13-dimensional space → nearest bread type
+- Each variable starts at 50, each answer adds/subtracts points
+- Result: Euclidean distance in 13D space to nearest bread type
 
-## 4. Survey Result (굽기 결과)
+## Survey Result (반죽 만들기 결과)
 
-- Bread type card with character illustration
-- Random adjective prefix (3 Korean characters) + bread name
-  - Example: `"쫀쫀한 소금빵"`, `"차가운 바게트"`, `"발랄한 도넛"`
-- Radar chart of 6 core variable scores
-- Compatible/incompatible bread types
-- Share button + CTA to create AI avatar
+- Bread type card + random 3-char Korean adjective prefix (e.g. `"쫀쫀한 소금빵"`)
+- Radar chart of 6 core variables
+- Compatible / incompatible bread types
+- Share + CTA to create AI avatar
 
-## 5. Bread Types (8 Types)
+## Bread Types (8 Types)
 
-| Bread | One-line Description |
+| ID | Name | Description |
+|---|---|---|
+| `cream` | 슈크림빵 | Tries to hide emotions but feelings show anyway |
+| `red_bean` | 팥빵 | Bad at expressing feelings but loyal and lasting |
+| `salt` | 소금빵 | Cold and indifferent but keeps coming to mind |
+| `pretzel` | 프레첼 | Has feelings but expresses them in a twisted way |
+| `donut` | 도넛 | Always looks bright but feels hollow inside |
+| `baguette` | 바게트 | Firm and slow to open up |
+| `madeleine` | 마들렌 | Small but clear and brutally honest |
+| `castella` | 카스테라 | Accommodates everyone until exhausted |
+
+## Luvin 지옥 (러빈지옥)
+
+- Runs in **landscape mode**
+- 지옥도 (steel bread trolley / 발효실) is the waiting space
+- 천국도 (oven) is where matched couples go for 1:1 conversation
+
+**Episode Flow (8 Episodes):**
+
+| Episode | Content |
 |---|---|
-| 슈크림빵 | Tries to hide emotions but feelings show anyway |
-| 팥빵 | Bad at expressing feelings but loyal and lasting |
-| 소금빵 | Cold and indifferent but keeps coming to mind |
-| 프레첼 | Has feelings but expresses them in a twisted way |
-| 도넛 | Always looks bright but feels hollow inside |
-| 바게트 | Firm and slow to open up |
-| 마들렌 | Small but clear and brutally honest |
-| 카스테라 | Accommodates everyone until exhausted |
+| ep.1 | 출연자 소개 / 지옥·천국도 소개 (두 번째 솔로지옥 참여부턴 skip 가능) / 첫인상 투표 (사용자가 직접) |
+| ep.2 | 투표 결과, 매칭 공개 / 매칭된 애들 → 오븐(1:1 대화) / 안 된 애들 → 다같이 대화 |
+| ep.3 | 매칭된 애들이 오븐에서 → 빵 트롤리로 돌아옴 / 안 된 애들과 합쳐지면 메기(녹은버터) 등장 / 메기 소개 / 메기 + 이성 출연자들이랑 1:1 대화 |
+| ep.4 | 사용자 참여형 게임 → 1위만 천국도에 같이 갈 출연자를 고를 수 있게 / 매칭된 애들끼리 오븐(1:1) / 안 된 애들 → 다같이 대화 |
+| ep.5 | 모든 출연자들과 대화하기 (플러팅, 질투, 삼각관계) / 같이 가고 싶은 사람 투표 (사용자가 하면 안됨) |
+| ep.6 | 투표 결과, 매칭 공개 / 매칭된 애들 → 오븐(1:1) / 안 된 애들 → 사용자 참여형 미니게임 / 1등 = 천국도 갈 기회 |
+| ep.7 | 마지막으로 모든 출연자들과 대화하기 / 최종 투표 (사용자가 직접 하면 안됨 — AI가 진행) |
+| ep.8 | 최종 투표 결과 공개 및 커플 공개 |
 
-## 6. Luvin 지옥 (러빈지옥)
+## AI Avatar (분신)
 
-Parody of Netflix's *Single's Inferno*, runs in **landscape mode**.
+- States: before creation / waiting / active
+- LLM-generated episode feed
+- Mode: 솔로지옥
 
-**Spaces:**
-- 지옥도: Steel bread trolley — where bread characters wait
-- 천국도: Oven — where matched couples go for 1:1 conversation
+## 베이킹 노트 (Community)
 
-**Episode Flow:**
-1. First impression vote
-2. Vote result reveal → matched couple enters 천국도 (oven)
-3. 1:1 deep conversation in oven
+> **Not implemented in v1 — design is not ready yet. Do NOT develop this feature until design is provided.**
 
-**(Repeating loop, episodes 4–7):**
-
-4. Remaining breads play mini-games in 지옥도
-   - Missions: 버터 구해오기 / 이스트 구해오기 / 밀가루 얻기 / 설탕 구해오기 / 계란 구하기
-5. Couple returns → 메기 (new contestant: male + female) enters
-6. Send a note to who you want to go to 천국도 with
-7. Note reveal → matching result → matched couple enters oven
-
-**Story elements:** Flirting, jealousy, conflict, love triangles, arguments, reconciliation — generated by LLM based on each bread's personality profile.
-
-**Temperature relationship map:** All 6 participants shown with relationship lines colored by temperature (Cold/Warm/Hot).
-
-## 7. AI Avatar (분신)
-
-- State-based UI: before creation / waiting / active in 러빈지옥
-- Oven status visualization with live temperature gauge
-- Event feed: LLM-generated episode snippets
-- Modes: 1:1 matching or 솔로지옥 (group format)
-
-## 8. 베이킹 노트 (Anonymous Community)
-
-- Anonymous identity = bread type (e.g., `소금빵 [● WARM 68°]`)
+- Anonymous: identity = bread type + temperature tag
 - Tabs: 전체 / 고민 / 관찰
-- Reactions: 온도 올리기 (like) + 메모 (comment)
+- Actions: 온도 올리기 (like) + 메모 (comment)
 
 ## Bottom Navigation (4 Tabs)
 
-| Tab | Icon | Label |
-|---|---|---|
-| Home | ◎ | 홈 |
-| 러빈지옥 | ⊙ | 러빈지옥 |
-| AI 분신 | ≋ | 분신 |
-| 베이킹 노트 | ✎ | 노트 |
+`홈` / `러빈지옥` / `분신` / `베이킹노트`
 
-- Tab bar hides on scroll, reappears when scroll stops or moves up
-- Icons only — no labels displayed
+- Tab bar hides on scroll, reappears on stop or scroll up
+- Icons only (no labels) — icon assets from Figma
+- `베이킹노트` tab is visible in the tab bar but tapping it shows a "준비 중" coming soon screen — do NOT navigate to any actual feature screen
 
 ---
 
-# Directory Architecture
+# 6. Directory Architecture
+
+> **Read this section before writing any code for every single task.**
+> Place files exactly as described. Do not create new top-level directories without confirmation.
 
 ```
 luvin-frontend-v1/
-├── app/                          # Expo Router routes
-│   ├── _layout.tsx
+├── app/                          # Expo Router routes (file-based)
+│   ├── _layout.tsx               # Root layout
 │   └── (tabs)/
-│       ├── _layout.tsx
-│       └── index.tsx
+│       ├── _layout.tsx           # Tab navigator layout
+│       └── index.tsx             # Home tab
 │
 ├── src/
 │   ├── assets/
-│   │   ├── fonts/                # Yde Street Bold, DM Mono, Pretendard
-│   │   ├── icons/
-│   │   └── images/
+│   │   ├── fonts/                # Yde Street Bold, Yde Street Light
+│   │   ├── icons/                # SVG icons from Figma only
+│   │   └── images/               # Image assets from Figma only
 │   │
 │   ├── constants/
-│   │   ├── colors.ts             # Design token colors
-│   │   └── env.ts
+│   │   ├── color.ts              # All design tokens (sourced from Figma)
+│   │   └── env.ts                # Environment variables
 │   │
 │   ├── features/                 # Feature-based modules
 │   │   ├── auth/
-│   │   │   ├── api/
-│   │   │   ├── components/
-│   │   │   ├── hooks/
-│   │   │   ├── store/
-│   │   │   ├── types/
+│   │   │   ├── api/              # API calls
+│   │   │   ├── components/       # Auth-specific components
+│   │   │   ├── hooks/            # Auth hooks
+│   │   │   ├── store/            # Zustand store
+│   │   │   ├── types/            # TypeScript types
 │   │   │   └── utils/
-│   │   ├── survey/
-│   │   ├── result/
+│   │   ├── survey/               # 반죽 만들기
+│   │   ├── result/               # 굽기 결과
 │   │   ├── inferno/              # 러빈지옥
 │   │   ├── avatar/               # AI 분신
-│   │   └── community/            # 베이킹 노트
+│   │   └── community/            # 베이킹 노트 (v1 미개발)
 │   │
 │   ├── providers/
-│   │   ├── query-provider.tsx
+│   │   ├── query-provider.tsx    # TanStack Query provider
 │   │   └── theme-provider.tsx
 │   │
 │   ├── services/
-│   │   ├── api.ts
-│   │   └── query-client.ts
+│   │   ├── api.ts                # Axios instance and interceptors
+│   │   └── query-client.ts       # TanStack Query client config
 │   │
 │   └── shared/
-│       ├── components/
-│       ├── hooks/
-│       ├── lib/utils.ts
-│       ├── store/auth.store.ts
-│       ├── styles/global.css
-│       ├── types/
-│       ├── ui/                   # Temperature gauge, status tag, etc.
+│       ├── components/           # Domain-specific shared components
+│       ├── hooks/                # Common custom hooks
+│       ├── lib/utils.ts          # Utility functions
+│       ├── store/auth.store.ts   # Auth Zustand store
+│       ├── styles/global.css     # Global styles
+│       ├── types/                # Global TypeScript types
+│       ├── ui/                   # Reusable domain-agnostic UI components
+│       │                         # (Button, Input, TemperatureGauge, StatusTag, etc.)
 │       └── utils/
 │
 ├── CLAUDE.md
 ├── AGENTS.md
 ├── app.json
+├── tailwind.config.js            # Imports tokens from color.ts
 ├── package.json
 └── tsconfig.json
 ```
 
+### Component Placement Rules
+
+| Situation | Location |
+|---|---|
+| Reusable across any domain (Button, Input, etc.) | `src/shared/ui/` |
+| Used only in one feature | `src/features/<feature>/components/` |
+| API calls for a feature | `src/features/<feature>/api/` |
+| Zustand store for a feature | `src/features/<feature>/store/` |
+| TypeScript types for a feature | `src/features/<feature>/types/` |
+| Common hooks | `src/shared/hooks/` |
+| Design tokens | `src/constants/color.ts` |
+
 ---
 
-# Implementation Rules
+# 7. Component-First Development Rules
 
-- Each page is managed via `[pageName]` directory in `src/app/`
-- Declare model and API types before implementing any page — check Figma design to determine necessary data
-- Frequently reused components (buttons, inputs, status tags, temperature gauge) go in `src/shared/ui/` as flexible shared components
-- All copy and UX text must follow Luvin UX vocabulary (bread-baking metaphors)
-- Temperature gauge is a core shared component — implement it in `src/shared/ui/` first
+> **Read this before implementing any page.**
+
+## Before developing any page, you MUST:
+
+1. **Identify all reusable UI elements** that appear across multiple pages (buttons, inputs, cards, tags, gauges, etc.) and implement them as shared components in `src/shared/ui/` first
+2. **Identify all image/illustration assets** used in the page and implement each as a dedicated component before use
+3. **Check if the component already exists** in `src/shared/ui/` or `src/features/<feature>/components/` before creating a new one — never duplicate
+
+## Image & Asset Components
+
+- **Every image, illustration, and SVG asset must be implemented as a React component**
+- Copy SVG code from Figma and wrap it as a component in `src/assets/icons/` or `src/shared/ui/`
+- Do NOT use raw `<Image>` with a file path directly in a page — always wrap in a component
+- Naming convention: `<BreadCharacter type="salt" />`, `<OvenIllustration state="baking" />`, etc.
+
+## Component Checklist (run through this before writing any page code)
+
+- [ ] All shared UI components used in this page exist in `src/shared/ui/`
+- [ ] All image/SVG assets used in this page are wrapped as components
+- [ ] All feature-specific components are defined in `src/features/<feature>/components/`
+- [ ] No design values are hardcoded — all tokens reference `color.ts`
+- [ ] No duplicate components — always reuse existing ones
 
 ---
 
-# Avoid Patterns
+# 8. Coding Rules
 
-- Do not use `any` type. Write `[feature]/types.ts` and export proper interfaces
-- Avoid `margin`/`padding` styling — use `gap` or empty `h-{}` divs instead
-- If a component file exceeds 150 lines, split hooks or sub-components into separate modules
-- Do not use `React.[module]` pattern — import directly: `import { useState } from 'react'`
-- Do not use inline functions — create named handler functions: `handle{Target}{Event}` (e.g., `handleCTAButtonPress`, `handleSurveyAnswerSelect`)
+- Use functional components, hooks, and explicit TypeScript types/interfaces
+- **Component declaration**: always use `export default function Name() {}` form
+  - Exception: `memo`, `forwardRef` wrapping — use `const Name = memo(...)` + separate export
+  - Small internal helper components — `const` arrow functions allowed
+- Use **NativeWind `className`** for styling — avoid `style={{}}` and `StyleSheet.create`
+- NativeWind v4 (Tailwind CSS v3): manage custom styles in `tailwind.config.js`
+- Ensure `babel.config.js` and `metro.config.js` maintain NativeWind v4 config
+- API calls: wrap with **Axios**, manage async state with **TanStack Query** (`useQuery`, `useMutation`)
+- Preserve all existing comments and docstrings — do not remove them
+
+---
+
+# 9. Avoid Patterns
+
+- Do not use `any` type — write `[feature]/types.ts` and export proper interfaces
+- Avoid `margin`/`padding` — use `gap` or empty `h-{}` spacer divs instead
+- If a component exceeds 150 lines, split into separate hook or component files
+- Do not use `React.[module]` — import directly: `import { useState } from 'react'`
+- Do not use inline functions — use named handlers: `handle{Target}{Event}` (e.g. `handleCTAButtonPress`)
 - Do not use inline styles
-- Do not use `relative`/`absolute` layout — use flex and grid Tailwind CSS instead
-- For assets: copy SVG code from Figma, convert to SVG component — do not create custom asset files
-- Do not implement your own icons — all assets come from Figma
+- Do not use `relative`/`absolute` layout — use flex and grid Tailwind classes instead
+- Do not create custom asset files — copy SVG from Figma and convert to SVG component
+- Do not install new icon packages — all icons come from Figma
+- Do not hardcode design values — always use `color.ts` or read from Figma
 
 ---
 
-# MCP Configuration Notes
+# 10. MCP Configuration Notes
 
-- Figma MCP package: `figma-developer-mcp` (NOT `@figma/mcp` — does not exist)
-- Required flag: `--stdio` (default is HTTP mode, incompatible with Claude Code)
-- Claude Code config location: `~/.claude.json` (NOT Claude Desktop config)
-- Figma API token expires every 90 days — check expiration before use
-- When querying Figma designs: specify `fileKey` and `node-id` separately for reliability
+- **Figma MCP package**: `figma-developer-mcp` (NOT `@figma/mcp` — does not exist)
+- **Required flag**: `--stdio` (default HTTP mode is incompatible with Claude Code)
+- **Config location**: `~/.claude.json` (Claude Code — NOT Claude Desktop config)
+- **API token**: expires every 90 days — verify before use, never commit to repository
+- **Figma File Key**: ask the user before querying — never hardcode in any file
+- When querying Figma: specify `fileKey` and `node-id` separately for reliability
