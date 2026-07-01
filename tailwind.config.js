@@ -64,7 +64,8 @@ module.exports = {
       spacing: {},
       borderRadius: {},
       fontFamily: {
-        'yde-street': ['Yde street'],
+        'yde-street-bold': ['YdeStreetBold'],
+        'yde-street-light': ['YdeStreetLight'],
       },
       fontSize: {
         'heading-h1': ['24px', { lineHeight: '160%', fontWeight: '700', letterSpacing: '0%' }],
