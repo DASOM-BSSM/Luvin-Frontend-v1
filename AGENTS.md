@@ -1,6 +1,6 @@
-# CLAUDE.md
+# AGENTS.md
 
-Luvin is a mobile-based bread-themed AI dating simulation app. The core concept is **"Love is all about timing"** — users' romantic tendencies are analyzed and expressed as bread types, and an AI avatar ("분신") that mirrors the user's personality participates in a dating simulation inspired by Netflix's *Single's Inferno*.
+Luvin is a mobile-based bread-themed AI dating simulation app. The core concept is **"Love is all about timing"** — users' romantic tendencies are analyzed and expressed as bread types, and an AI avatar ("분신") that mirrors the user's personality participates in a dating simulation inspired by Netflix's _Single's Inferno_.
 
 ---
 
@@ -24,15 +24,15 @@ Luvin is a mobile-based bread-themed AI dating simulation app. The core concept 
 
 > Always verify exact versions in `package.json` before use. Do not upgrade packages without confirmation.
 
-| Category | Library | Notes |
-|---|---|---|
-| Framework | `expo` | Check `package.json` for version |
-| Routing | `expo-router` | File-based routing under `app/` |
-| Runtime | `react-native`, `typescript`, `react` | Check `package.json` for version |
-| Styling | `nativewind` (NativeWind v4) | Tailwind CSS v3 compatible |
-| State Management | `zustand` | Global state |
-| API & Async State | `@tanstack/react-query` + `axios` | Data fetching and caching |
-| Auth | Google OAuth only | No separate sign-up flow |
+| Category          | Library                               | Notes                            |
+| ----------------- | ------------------------------------- | -------------------------------- |
+| Framework         | `expo`                                | Check `package.json` for version |
+| Routing           | `expo-router`                         | File-based routing under `app/`  |
+| Runtime           | `react-native`, `typescript`, `react` | Check `package.json` for version |
+| Styling           | `nativewind` (NativeWind v4)          | Tailwind CSS v3 compatible       |
+| State Management  | `zustand`                             | Global state                     |
+| API & Async State | `@tanstack/react-query` + `axios`     | Data fetching and caching        |
+| Auth              | Google OAuth only                     | No separate sign-up flow         |
 
 ---
 
@@ -53,14 +53,14 @@ Luvin is a mobile-based bread-themed AI dating simulation app. The core concept 
 > **All design values (colors, spacing, typography, border radius, etc.) must be read from Figma.**
 > Do NOT hardcode or assume any design tokens.
 >
-> - Design tokens are stored in `src/constants/color.ts`
-> - If a token is missing in `color.ts`, read it from Figma and add it before using
+> - Design tokens are stored in `tailwind.config.js`
+> - If a token is missing in `tailwind.config.js`, read it from Figma and add it before using
 > - **Figma File Key**: Do NOT hardcode anywhere. Ask the user for the file key before querying Figma.
 
 ## Figma MCP Rules
 
 - Always read the Figma design before implementing any screen or component
-- If the Figma MCP returns a localhost URL for an image or SVG, use it directly
+- If the Figma MCP returns a localhost URL for an image or SVG, find the same asset from `src/assets/images`
 - Do NOT add new icon packages — all icon assets come from Figma
 - Do NOT create placeholder assets — use the actual Figma assets
 - If Figma design is unavailable for a component, **ask before proceeding**
@@ -69,10 +69,10 @@ Luvin is a mobile-based bread-themed AI dating simulation app. The core concept 
 
 Only two fonts are used in Luvin:
 
-| Font | Usage |
-|---|---|
-| `Yde Street Bold` | Headlines, brand elements, display text |
-| `Yde Street Light` | Body text, descriptions, subtext |
+| Font               | Usage                                   |
+| ------------------ | --------------------------------------- |
+| `Yde Street Bold`  | Headlines, brand elements, display text |
+| `Yde Street Light` | Body text, descriptions, subtext        |
 
 Do NOT use any other font. All font usage details are defined in Figma.
 
@@ -84,7 +84,7 @@ Do NOT use any other font. All font usage details are defined in Figma.
 
 - Single CTA: `"나의 오븐 예열하기"` triggers Google OAuth
 - No separate sign-up screen — first login auto-creates account
-- After login: new users go to survey / existing users go to home
+- After login: users go to home
 
 ## Main (Home)
 
@@ -95,11 +95,7 @@ Do NOT use any other font. All font usage details are defined in Figma.
 ## Survey (반죽 만들기, 20 Questions)
 
 - Format: A / B / C choice
-- Measures 13 psychological variables (6 core + 7 behavioral)
-  - **Core**: 애정표현성, 관계불안도, 관계회피성, 감정동조성, 관계주도성, 현실우선성
-  - **Behavioral**: 확신요구도, 질투반응성, 관계에너지의존도, 감정억제성, 갈등직면성, 관계속도감, 관심표현빈도
-- Each variable starts at 50, each answer adds/subtracts points
-- Result: Euclidean distance in 13D space to nearest bread type
+- Each answer adds/subtracts points
 
 ## Survey Result (반죽 만들기 결과)
 
@@ -110,16 +106,16 @@ Do NOT use any other font. All font usage details are defined in Figma.
 
 ## Bread Types (8 Types)
 
-| ID | Name | Description |
-|---|---|---|
-| `cream` | 슈크림빵 | Tries to hide emotions but feelings show anyway |
-| `red_bean` | 팥빵 | Bad at expressing feelings but loyal and lasting |
-| `salt` | 소금빵 | Cold and indifferent but keeps coming to mind |
-| `pretzel` | 프레첼 | Has feelings but expresses them in a twisted way |
-| `donut` | 도넛 | Always looks bright but feels hollow inside |
-| `baguette` | 바게트 | Firm and slow to open up |
-| `madeleine` | 마들렌 | Small but clear and brutally honest |
-| `castella` | 카스테라 | Accommodates everyone until exhausted |
+| ID          | Name     | Description                                      |
+| ----------- | -------- | ------------------------------------------------ |
+| `cream`     | 슈크림빵 | Tries to hide emotions but feelings show anyway  |
+| `redbean`   | 팥빵     | Bad at expressing feelings but loyal and lasting |
+| `salt`      | 소금빵   | Cold and indifferent but keeps coming to mind    |
+| `pretzel`   | 프레첼   | Has feelings but expresses them in a twisted way |
+| `donut`     | 도넛     | Always looks bright but feels hollow inside      |
+| `baguette`  | 바게트   | Firm and slow to open up                         |
+| `madeleine` | 마들렌   | Small but clear and brutally honest              |
+| `castella`  | 카스테라 | Accommodates everyone until exhausted            |
 
 ## Luvin 지옥 (러빈지옥)
 
@@ -129,16 +125,16 @@ Do NOT use any other font. All font usage details are defined in Figma.
 
 **Episode Flow (8 Episodes):**
 
-| Episode | Content |
-|---|---|
-| ep.1 | 출연자 소개 / 지옥·천국도 소개 (두 번째 솔로지옥 참여부턴 skip 가능) / 첫인상 투표 (사용자가 직접) |
-| ep.2 | 투표 결과, 매칭 공개 / 매칭된 애들 → 오븐(1:1 대화) / 안 된 애들 → 다같이 대화 |
-| ep.3 | 매칭된 애들이 오븐에서 → 빵 트롤리로 돌아옴 / 안 된 애들과 합쳐지면 메기(녹은버터) 등장 / 메기 소개 / 메기 + 이성 출연자들이랑 1:1 대화 |
-| ep.4 | 사용자 참여형 게임 → 1위만 천국도에 같이 갈 출연자를 고를 수 있게 / 매칭된 애들끼리 오븐(1:1) / 안 된 애들 → 다같이 대화 |
-| ep.5 | 모든 출연자들과 대화하기 (플러팅, 질투, 삼각관계) / 같이 가고 싶은 사람 투표 (사용자가 하면 안됨) |
-| ep.6 | 투표 결과, 매칭 공개 / 매칭된 애들 → 오븐(1:1) / 안 된 애들 → 사용자 참여형 미니게임 / 1등 = 천국도 갈 기회 |
-| ep.7 | 마지막으로 모든 출연자들과 대화하기 / 최종 투표 (사용자가 직접 하면 안됨 — AI가 진행) |
-| ep.8 | 최종 투표 결과 공개 및 커플 공개 |
+| Episode | Content                                                                                                                                 |
+| ------- | --------------------------------------------------------------------------------------------------------------------------------------- |
+| ep.1    | 출연자 소개 / 지옥·천국도 소개 (두 번째 솔로지옥 참여부턴 skip 가능) / 첫인상 투표 (사용자가 직접)                                      |
+| ep.2    | 투표 결과, 매칭 공개 / 매칭된 애들 → 오븐(1:1 대화) / 안 된 애들 → 다같이 대화                                                          |
+| ep.3    | 매칭된 애들이 오븐에서 → 빵 트롤리로 돌아옴 / 안 된 애들과 합쳐지면 메기(녹은버터) 등장 / 메기 소개 / 메기 + 이성 출연자들이랑 1:1 대화 |
+| ep.4    | 사용자 참여형 게임 → 1위만 천국도에 같이 갈 출연자를 고를 수 있게 / 매칭된 애들끼리 오븐(1:1) / 안 된 애들 → 다같이 대화                |
+| ep.5    | 모든 출연자들과 대화하기 (플러팅, 질투, 삼각관계) / 같이 가고 싶은 사람 투표 (사용자가 하면 안됨)                                       |
+| ep.6    | 투표 결과, 매칭 공개 / 매칭된 애들 → 오븐(1:1) / 안 된 애들 → 사용자 참여형 미니게임 / 1등 = 천국도 갈 기회                             |
+| ep.7    | 마지막으로 모든 출연자들과 대화하기 / 최종 투표 (사용자가 직접 하면 안됨 — AI가 진행)                                                   |
+| ep.8    | 최종 투표 결과 공개 및 커플 공개                                                                                                        |
 
 ## AI Avatar (분신)
 
@@ -184,8 +180,6 @@ luvin-frontend-v1/
 │   │   └── images/               # Image assets from Figma only
 │   │
 │   ├── constants/
-│   │   ├── color.ts              # All design tokens (sourced from Figma)
-│   │   └── env.ts                # Environment variables
 │   │
 │   ├── features/                 # Feature-based modules
 │   │   ├── auth/
@@ -223,22 +217,22 @@ luvin-frontend-v1/
 ├── CLAUDE.md
 ├── AGENTS.md
 ├── app.json
-├── tailwind.config.js            # Imports tokens from color.ts
+├── tailwind.config.js            # Contains design tokens
 ├── package.json
 └── tsconfig.json
 ```
 
 ### Component Placement Rules
 
-| Situation | Location |
-|---|---|
-| Reusable across any domain (Button, Input, etc.) | `src/shared/ui/` |
-| Used only in one feature | `src/features/<feature>/components/` |
-| API calls for a feature | `src/features/<feature>/api/` |
-| Zustand store for a feature | `src/features/<feature>/store/` |
-| TypeScript types for a feature | `src/features/<feature>/types/` |
-| Common hooks | `src/shared/hooks/` |
-| Design tokens | `src/constants/color.ts` |
+| Situation                                        | Location                             |
+| ------------------------------------------------ | ------------------------------------ |
+| Reusable across any domain (Button, Input, etc.) | `src/shared/ui/`                     |
+| Used only in one feature                         | `src/features/<feature>/components/` |
+| API calls for a feature                          | `src/features/<feature>/api/`        |
+| Zustand store for a feature                      | `src/features/<feature>/store/`      |
+| TypeScript types for a feature                   | `src/features/<feature>/types/`      |
+| Common hooks                                     | `src/shared/hooks/`                  |
+| Design tokens                                    | `tailwind.config.js`                 |
 
 ---
 
@@ -264,7 +258,7 @@ luvin-frontend-v1/
 - [ ] All shared UI components used in this page exist in `src/shared/ui/`
 - [ ] All image/SVG assets used in this page are wrapped as components
 - [ ] All feature-specific components are defined in `src/features/<feature>/components/`
-- [ ] No design values are hardcoded — all tokens reference `color.ts`
+- [ ] No design values are hardcoded — all tokens reference `tailwind.config.js`
 - [ ] No duplicate components — always reuse existing ones
 
 ---
@@ -294,15 +288,13 @@ luvin-frontend-v1/
 - Do not use `relative`/`absolute` layout — use flex and grid Tailwind classes instead
 - Do not create custom asset files — copy SVG from Figma and convert to SVG component
 - Do not install new icon packages — all icons come from Figma
-- Do not hardcode design values — always use `color.ts` or read from Figma
+- Do not hardcode design values — always use `tailwind.config.js` or read from Figma
 
 ---
 
 # 10. MCP Configuration Notes
 
-- **Figma MCP package**: `figma-developer-mcp` (NOT `@figma/mcp` — does not exist)
 - **Required flag**: `--stdio` (default HTTP mode is incompatible with Claude Code)
-- **Config location**: `~/.claude.json` (Claude Code — NOT Claude Desktop config)
-- **API token**: expires every 90 days — verify before use, never commit to repository
+- **API token**: expires every 90 days — verify before use, never commit to repositorys
 - **Figma File Key**: ask the user before querying — never hardcode in any file
 - When querying Figma: specify `fileKey` and `node-id` separately for reliability
