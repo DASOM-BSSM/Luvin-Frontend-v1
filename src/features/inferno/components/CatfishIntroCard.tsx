@@ -12,8 +12,8 @@ interface CatfishIntroCardProps {
 
 export default function CatfishIntroCard({ message }: CatfishIntroCardProps) {
   return (
-    <View className="w-[700px] flex-row items-center gap-5">
-      <View className="h-[110px] w-[74px] shrink-0">
+    <View className="w-full flex-row items-center gap-5">
+      <View className="w-[11%] aspect-[37/55] shrink-0">
         <Image
           source={require('@/src/assets/images/avatar.png')}
           contentFit="contain"

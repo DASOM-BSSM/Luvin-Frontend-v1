@@ -1,13 +1,34 @@
 import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
+type PrimaryButtonTextWeight = "light" | "bold";
+type PrimaryButtonTextSize = "body-s" | "heading-h5";
+
 interface PrimaryButtonProps {
   label: string;
   selected?: boolean;
+  textWeight?: PrimaryButtonTextWeight;
+  textSize?: PrimaryButtonTextSize;
   onPress?: () => void;
 }
 
-export default function PrimaryButton({ label, selected = false, onPress }: PrimaryButtonProps) {
+const TEXT_WEIGHT_CLASS: Record<PrimaryButtonTextWeight, string> = {
+  light: "font-yde-street-light",
+  bold: "font-yde-street-bold",
+};
+
+const TEXT_SIZE_CLASS: Record<PrimaryButtonTextSize, string> = {
+  "body-s": "text-body-s",
+  "heading-h5": "text-heading-h5",
+};
+
+export default function PrimaryButton({
+  label,
+  selected = false,
+  textWeight = "light",
+  textSize = "body-s",
+  onPress,
+}: PrimaryButtonProps) {
   const [hovered, setHovered] = useState(false);
 
   const handleHoverIn = () => {
@@ -19,17 +40,17 @@ export default function PrimaryButton({ label, selected = false, onPress }: Prim
   };
 
   return (
-    <Pressable className="self-start" onPress={onPress} onHoverIn={handleHoverIn} onHoverOut={handleHoverOut}>
+    <Pressable className="w-full" onPress={onPress} onHoverIn={handleHoverIn} onHoverOut={handleHoverOut}>
       {({ pressed }) => {
         const isActive = selected || hovered || pressed;
         return (
           <View
-            className={`w-[300px] h-[35px] items-center justify-center rounded-xl px-4 py-2 ${
+            className={`w-full aspect-[60/7] items-center justify-center rounded-xl px-4 py-2 ${
               isActive ? "bg-default-black" : "bg-default-bg border border-default-black"
             }`}
           >
             <Text
-              className={`text-center font-yde-street-light text-body-s ${
+              className={`text-center ${TEXT_WEIGHT_CLASS[textWeight]} ${TEXT_SIZE_CLASS[textSize]} ${
                 isActive ? "text-default-bg" : "text-default-black"
               }`}
             >

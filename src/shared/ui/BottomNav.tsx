@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Pressable, View } from 'react-native';
 
 import BreadNavIcon from '@/src/assets/icons/BreadNavIcon';
@@ -23,21 +22,37 @@ const TABS: { id: NavTab; Icon: typeof HomeNavIcon }[] = [
   { id: 'community', Icon: CommentNavIcon },
 ];
 
-export default function BottomNav({ activeTab = 'home', onTabChange }: BottomNavProps) {
-  const [selectedTab, setSelectedTab] = useState<NavTab>(activeTab);
+interface NavButtonProps {
+  id: NavTab;
+  active: boolean;
+  Icon: typeof HomeNavIcon;
+  onTabChange?: (tab: NavTab) => void;
+}
 
-  const handleTabPress = (tab: NavTab) => {
-    setSelectedTab(tab);
-    onTabChange?.(tab);
+function NavButton({ id, active, Icon, onTabChange }: NavButtonProps) {
+  const handlePress = () => {
+    onTabChange?.(id);
   };
 
   return (
-    <View className="w-[360px] self-center overflow-hidden rounded-3xl bg-default-card px-7 py-5">
-      <View className="w-full flex-row items-center justify-center gap-14">
+    <Pressable onPress={handlePress}>
+      <Icon className={active ? ACTIVE_FILL_CLASS : INACTIVE_FILL_CLASS} />
+    </Pressable>
+  );
+}
+
+export default function BottomNav({ activeTab = 'home', onTabChange }: BottomNavProps) {
+  return (
+    <View className="w-[85%] self-center overflow-hidden rounded-3xl bg-default-card px-[8%] py-3.5">
+      <View className="w-full flex-row items-center justify-between">
         {TABS.map(({ id, Icon }) => (
-          <Pressable key={id} onPress={() => handleTabPress(id)}>
-            <Icon className={selectedTab === id ? ACTIVE_FILL_CLASS : INACTIVE_FILL_CLASS} />
-          </Pressable>
+          <NavButton
+            key={id}
+            id={id}
+            active={activeTab === id}
+            Icon={Icon}
+            onTabChange={onTabChange}
+          />
         ))}
       </View>
     </View>
