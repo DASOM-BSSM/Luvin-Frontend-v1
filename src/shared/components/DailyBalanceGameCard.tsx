@@ -7,12 +7,14 @@ interface DailyBalanceGameCardProps {
   question: string;
   optionALabel: string;
   optionBLabel: string;
+  className?: string;
 }
 
 export default function DailyBalanceGameCard({
   question,
   optionALabel,
   optionBLabel,
+  className = 'w-full',
 }: DailyBalanceGameCardProps) {
   const [selected, setSelected] = useState<'A' | 'B' | null>(null);
 
@@ -25,7 +27,7 @@ export default function DailyBalanceGameCard({
   };
 
   return (
-    <View className="w-[360px] items-center gap-3 rounded-xl px-6 py-4">
+    <View className={`${className} items-center gap-3 rounded-xl px-6 py-4`}>
       <Text className="font-yde-street-bold text-heading-h4 text-brown-1000 text-center">
         {question}
       </Text>

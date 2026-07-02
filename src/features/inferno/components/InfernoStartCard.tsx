@@ -6,6 +6,7 @@ interface InfernoStartCardProps {
   status?: 'idle' | 'waiting';
   matchedCount?: number;
   totalCount?: number;
+  className?: string;
   onPressJoin?: () => void;
 }
 
@@ -13,10 +14,11 @@ export default function InfernoStartCard({
   status = 'idle',
   matchedCount = 3,
   totalCount = 6,
+  className = 'w-full',
   onPressJoin,
 }: InfernoStartCardProps) {
   return (
-    <View className="w-[360px] items-center rounded-xl bg-default-card px-7.5 py-4">
+    <View className={`${className} items-center rounded-xl bg-default-card px-7.5 py-4`}>
       {status === 'idle' && (
         <View className="w-full items-center gap-2.5">
           <Text className="font-yde-street-light text-body-s text-text-primary text-center">

@@ -1,136 +1,70 @@
-import type { ReactNode } from 'react';
+import { router, useLocalSearchParams, type Href } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
-import { SafeAreaView } from 'react-native-safe-area-context';
 
-import ChatBubble from '@/src/features/inferno/components/ChatBubble';
-import CatfishIntroCard from '@/src/features/inferno/components/CatfishIntroCard';
 import EpisodeThumbnail from '@/src/features/inferno/components/EpisodeThumbnail';
-import InfernoStartCard from '@/src/features/inferno/components/InfernoStartCard';
 import DailyBalanceGameCard from '@/src/shared/components/DailyBalanceGameCard';
 import MyProfileCard from '@/src/shared/components/MyProfileCard';
+import AppScreen from '@/src/shared/ui/AppScreen';
 import BottomNav from '@/src/shared/ui/BottomNav';
-import BreadCharacter from '@/src/shared/ui/BreadCharacter';
-import ButterCharacter from '@/src/shared/ui/ButterCharacter';
-import ChoiceButton from '@/src/shared/ui/ChoiceButton';
-import CommentBubble from '@/src/shared/ui/CommentBubble';
-import PrimaryButton from '@/src/shared/ui/PrimaryButton';
-import { BREAD_TYPES } from '@/src/shared/types/bread';
+import PageHeader from '@/src/shared/ui/PageHeader';
+import useBottomNavRoute from '@/src/shared/hooks/useBottomNavRoute';
 
-interface SectionProps {
-  title: string;
-  children: ReactNode;
-}
+const SURVEY_ROUTE = '/survey' as Href;
 
-function Section({ title, children }: SectionProps) {
+export default function HomeScreen() {
+  const { survey } = useLocalSearchParams<{ survey?: string }>();
+  const hasSurveyResult = survey === 'done';
+  const handleTabChange = useBottomNavRoute();
+
+  const handleSurveyPress = () => {
+    router.push(SURVEY_ROUTE);
+  };
+
   return (
-    <View className="gap-4">
-      <Text className="font-yde-street-bold text-heading-h3 text-default-black">{title}</Text>
-      <View className="items-center">{children}</View>
-    </View>
-  );
-}
-
-export default function ComponentShowcaseScreen() {
-  return (
-    <SafeAreaView className="flex-1 bg-default-bg" edges={['top', 'bottom']}>
+    <AppScreen footer={<BottomNav activeTab="home" onTabChange={handleTabChange} />}>
       <ScrollView
         className="flex-1"
-        contentContainerClassName="gap-10 p-6"
+        contentContainerClassName="gap-9 pb-8"
         showsVerticalScrollIndicator={false}
       >
-        <Text className="font-yde-street-bold text-heading-h1 text-default-black">
-          컴포넌트 모음
-        </Text>
+        <PageHeader />
 
-        <Section title="썸네일">
-          <EpisodeThumbnail episodeNumber={1} title="러빈지옥에 오신걸 환영해요" />
-        </Section>
+        <View className="w-full self-center gap-0.5 px-1">
+          <Text className="font-yde-street-bold text-heading-h2 text-default-black">
+            타이밍을 놓치기 전에,
+          </Text>
+          <Text className="font-yde-street-light text-body-s text-default-black">
+            온도가 맞는 반죽을 만나 가장 따뜻한 사랑을 만들어요
+          </Text>
+        </View>
 
-        <Section title="일일 밸런스게임">
-          <DailyBalanceGameCard
-            question="Q. 오직 사랑만으로 결혼할 수 있다?!"
-            optionALabel="가능하다"
-            optionBLabel="불가능하다"
+        <View className="w-full self-center gap-8">
+          <MyProfileCard
+            status={hasSurveyResult ? 'default' : 'noquestion'}
+            breadType="donut"
+            temperature={0}
+            onPressSurvey={handleSurveyPress}
           />
-        </Section>
 
-        <Section title="myprofile">
-          <View className="gap-4">
-            <MyProfileCard status="noquestion" />
-            <MyProfileCard status="default" breadType="donut" temperature={0} />
+          <View className="gap-1">
+            <Text className="font-yde-street-light text-body-xs text-default-black">
+              오늘의 밸런스 게임 - 3/10개 참여
+            </Text>
+            <DailyBalanceGameCard
+              question="Q. 오직 사랑만으로 결혼할 수 있다?!"
+              optionALabel="가능하다"
+              optionBLabel="불가능하다"
+            />
           </View>
-        </Section>
 
-        <Section title="nav">
-          <BottomNav />
-        </Section>
-
-        <Section title="Button1">
-          <ChoiceButton label="Button1" />
-        </Section>
-
-        <Section title="Button2">
-          <PrimaryButton label="Button2" />
-        </Section>
-
-        <Section title="ovenchat">
           <View className="gap-2">
-            <ChatBubble room="oven" sender="people" status="before" />
-            <ChatBubble room="oven" sender="people" status="now" />
-            <ChatBubble room="oven" sender="me" status="before" />
-            <ChatBubble room="oven" sender="me" status="now" />
+            <Text className="font-yde-street-light text-body-xs text-default-black">
+              이런 소개팅 어때요
+            </Text>
+            <EpisodeThumbnail episodeNumber={1} title="러빈지옥에 오신걸 환영해요" />
           </View>
-        </Section>
-
-        <Section title="trollycaht">
-          <View className="gap-2">
-            <ChatBubble room="trolley" sender="people" status="before" />
-            <ChatBubble room="trolley" sender="people" status="now" />
-            <ChatBubble room="trolley" sender="me" status="before" />
-            <ChatBubble room="trolley" sender="me" status="now" />
-          </View>
-        </Section>
-
-        <Section title="baked">
-          <View className="flex-row flex-wrap gap-3">
-            {BREAD_TYPES.map((bread) => (
-              <BreadCharacter key={bread.id} type={bread.id} variant="baked" />
-            ))}
-          </View>
-        </Section>
-
-        <Section title="dough">
-          <View className="flex-row flex-wrap gap-3">
-            {BREAD_TYPES.map((bread) => (
-              <BreadCharacter key={bread.id} type={bread.id} variant="dough" />
-            ))}
-          </View>
-        </Section>
-
-        <Section title="butter">
-          <ButterCharacter />
-        </Section>
-
-        <Section title="러빈지옥 시작">
-          <View className="gap-4">
-            <InfernoStartCard status="idle" />
-            <InfernoStartCard status="waiting" matchedCount={3} totalCount={6} />
-          </View>
-        </Section>
-
-        <Section title="메기 등장 (가로 모드)">
-          <ScrollView className="w-full" horizontal showsHorizontalScrollIndicator={false}>
-            <CatfishIntroCard message='"안녕하세요 전 러빈지옥 패널이자 진행을 맡고있는 @@이에요!"' />
-          </ScrollView>
-        </Section>
-
-        <Section title="comment">
-          <View className="gap-3">
-            <CommentBubble text="설명설명설명설명입니당" align="left" />
-            <CommentBubble text="설명설명설명설명입니당" align="right" />
-          </View>
-        </Section>
+        </View>
       </ScrollView>
-    </SafeAreaView>
+    </AppScreen>
   );
 }
