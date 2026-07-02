@@ -13,8 +13,8 @@ interface BottomNavProps {
   onTabChange?: (tab: NavTab) => void;
 }
 
-const ACTIVE_COLOR = '#522D13';
-const INACTIVE_COLOR = '#E8CFBD';
+const ACTIVE_FILL_CLASS = 'fill-brown-900';
+const INACTIVE_FILL_CLASS = 'fill-brown-300';
 
 const TABS: { id: NavTab; Icon: typeof HomeNavIcon }[] = [
   { id: 'home', Icon: HomeNavIcon },
@@ -32,11 +32,11 @@ export default function BottomNav({ activeTab = 'home', onTabChange }: BottomNav
   };
 
   return (
-    <View className="items-start overflow-hidden rounded-3xl bg-default-card px-7 py-3.5">
+    <View className="w-[360px] self-center overflow-hidden rounded-3xl bg-default-card px-7 py-5">
       <View className="w-full flex-row items-center justify-center gap-14">
         {TABS.map(({ id, Icon }) => (
           <Pressable key={id} onPress={() => handleTabPress(id)}>
-            <Icon color={selectedTab === id ? ACTIVE_COLOR : INACTIVE_COLOR} />
+            <Icon className={selectedTab === id ? ACTIVE_FILL_CLASS : INACTIVE_FILL_CLASS} />
           </Pressable>
         ))}
       </View>
