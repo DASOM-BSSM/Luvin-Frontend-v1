@@ -1,4 +1,3 @@
-import { router } from "expo-router";
 import { Text, View } from "react-native";
 
 import OnboardingBreadGroup from "@/src/features/auth/components/OnboardingBreadGroup";
@@ -11,7 +10,6 @@ export default function OnboardingScreen() {
 
   const handlePreheatPress = () => {
     login();
-    router.replace("/");
   };
 
   return (
@@ -22,7 +20,7 @@ export default function OnboardingScreen() {
             <View className="gap-0.5 px-1">
               <Text className="font-yde-street-bold text-heading-h2 text-default-black">사랑은 타이밍이에요</Text>
               <Text className="font-yde-street-light text-body-s text-default-black">
-                나와 비슷한 빵을 만나, 너무 늦으면 타버리니까요
+                너무 빠르면 덜 익고, 너무 늦으면 타버리니깐요
               </Text>
             </View>
 
