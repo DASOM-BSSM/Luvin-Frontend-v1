@@ -3,7 +3,6 @@
     "name": "luvin-app-v1",
     "slug": "luvin-app-v1",
     "version": "1.0.0",
-    "orientation": "portrait",
     "icon": "./src/assets/icons/luvin_symbol.png",
     "scheme": "luvinappv1",
     "userInterfaceStyle": "automatic",
@@ -29,6 +28,12 @@
     },
     "plugins": [
       "expo-router",
+      [
+        "expo-screen-orientation",
+        {
+          "initialOrientation": "PORTRAIT_UP"
+        }
+      ],
       [
         "expo-splash-screen",
         {

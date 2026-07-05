@@ -1,6 +1,7 @@
 import { Redirect, Slot, type Href, useSegments } from 'expo-router';
 import { useEffect, useState } from 'react';
 
+import ScreenOrientationProvider from '@/src/providers/screen-orientation-provider';
 import ThemeProvider from '@/src/providers/theme-provider';
 import { useAuthStore } from '@/src/shared/store/auth.store';
 
@@ -38,7 +39,9 @@ function AuthGate() {
 export default function RootLayout() {
   return (
     <ThemeProvider>
-      <AuthGate />
+      <ScreenOrientationProvider>
+        <AuthGate />
+      </ScreenOrientationProvider>
     </ThemeProvider>
   );
 }
