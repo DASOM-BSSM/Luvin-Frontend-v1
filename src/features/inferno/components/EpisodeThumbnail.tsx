@@ -1,17 +1,19 @@
-import { Text, View } from 'react-native';
+import { Pressable, Text, View } from 'react-native';
 
 interface EpisodeThumbnailProps {
   episodeNumber: number;
   title: string;
   className?: string;
+  onPress?: () => void;
 }
 
 export default function EpisodeThumbnail({
   episodeNumber,
   title,
   className = 'w-full',
+  onPress,
 }: EpisodeThumbnailProps) {
-  return (
+  const content = (
     <View
       className={`${className} aspect-[20/9] justify-between rounded-xl border-2 border-dashed border-pink-400 py-3 pl-6 pr-3`}
     >
@@ -27,4 +29,10 @@ export default function EpisodeThumbnail({
       </View>
     </View>
   );
+
+  if (!onPress) {
+    return content;
+  }
+
+  return <Pressable onPress={onPress}>{content}</Pressable>;
 }

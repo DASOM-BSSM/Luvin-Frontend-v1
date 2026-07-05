@@ -1,9 +1,12 @@
+import { router } from 'expo-router';
 import { useState } from 'react';
 import { ScrollView, Text, View } from 'react-native';
 
 import EpisodeThumbnail from '@/src/features/inferno/components/EpisodeThumbnail';
 import InfernoHostIntro from '@/src/features/inferno/components/InfernoHostIntro';
 import InfernoStartCard from '@/src/features/inferno/components/InfernoStartCard';
+import { getEpisodeConfig } from '@/src/features/inferno/data/episodes';
+import { useInfernoStore } from '@/src/features/inferno/store/inferno.store';
 import AppScreen from '@/src/shared/ui/AppScreen';
 import BottomNav from '@/src/shared/ui/BottomNav';
 import PageHeader from '@/src/shared/ui/PageHeader';
@@ -14,6 +17,8 @@ type InfernoStatus = 'idle' | 'waiting' | 'active';
 export default function InfernoScreen() {
   const [status, setStatus] = useState<InfernoStatus>('idle');
   const handleTabChange = useBottomNavRoute();
+  const currentEpisode = useInfernoStore((state) => state.currentEpisode);
+  const currentEpisodeConfig = getEpisodeConfig(currentEpisode);
 
   const handleJoinPress = () => {
     setStatus('waiting');
@@ -21,6 +26,10 @@ export default function InfernoScreen() {
 
   const handleEpisodePress = () => {
     setStatus('active');
+  };
+
+  const handlePressEpisodeThumbnail = () => {
+    router.push(`/inferno-episode/${currentEpisode}`);
   };
 
   return (
@@ -67,7 +76,11 @@ export default function InfernoScreen() {
               <Text className="font-yde-street-light text-body-xs text-default-black">
                 러빈지옥 에피소드
               </Text>
-              <EpisodeThumbnail episodeNumber={1} title="러빈지옥에 오신걸 환영해요" />
+              <EpisodeThumbnail
+                episodeNumber={currentEpisodeConfig.number}
+                title={currentEpisodeConfig.thumbnailTitle}
+                onPress={handlePressEpisodeThumbnail}
+              />
             </View>
           )}
 

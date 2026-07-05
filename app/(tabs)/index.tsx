@@ -2,6 +2,8 @@ import { router, useLocalSearchParams, type Href } from 'expo-router';
 import { ScrollView, Text, View } from 'react-native';
 
 import EpisodeThumbnail from '@/src/features/inferno/components/EpisodeThumbnail';
+import { getEpisodeConfig } from '@/src/features/inferno/data/episodes';
+import { useInfernoStore } from '@/src/features/inferno/store/inferno.store';
 import DailyBalanceGameCard from '@/src/shared/components/DailyBalanceGameCard';
 import MyProfileCard from '@/src/shared/components/MyProfileCard';
 import AppScreen from '@/src/shared/ui/AppScreen';
@@ -15,21 +17,27 @@ export default function HomeScreen() {
   const { survey } = useLocalSearchParams<{ survey?: string }>();
   const hasSurveyResult = survey === 'done';
   const handleTabChange = useBottomNavRoute();
+  const currentEpisode = useInfernoStore((state) => state.currentEpisode);
+  const currentEpisodeConfig = getEpisodeConfig(currentEpisode);
 
   const handleSurveyPress = () => {
     router.push(SURVEY_ROUTE);
+  };
+
+  const handlePressEpisodeThumbnail = () => {
+    router.push(`/inferno-episode/${currentEpisode}`);
   };
 
   return (
     <AppScreen footer={<BottomNav activeTab="home" onTabChange={handleTabChange} />}>
       <ScrollView
         className="flex-1"
-        contentContainerClassName="gap-9 pb-8"
+        contentContainerClassName="gap-12 pb-8"
         showsVerticalScrollIndicator={false}
       >
         <PageHeader />
 
-        <View className="w-full self-center gap-0.5 px-1">
+        <View className="w-full self-center gap-1.5 px-1">
           <Text className="font-yde-street-bold text-heading-h2 text-default-black">
             타이밍을 놓치기 전에,
           </Text>
@@ -46,9 +54,9 @@ export default function HomeScreen() {
             onPressSurvey={handleSurveyPress}
           />
 
-          <View className="gap-1">
+          <View className="gap-2">
             <Text className="font-yde-street-light text-body-xs text-default-black">
-              오늘의 밸런스 게임 - 3/10개 참여
+              오늘의 밸런스 게임 - 318명 참여
             </Text>
             <DailyBalanceGameCard
               question="Q. 오직 사랑만으로 결혼할 수 있다?!"
@@ -59,9 +67,13 @@ export default function HomeScreen() {
 
           <View className="gap-2">
             <Text className="font-yde-street-light text-body-xs text-default-black">
-              이런 소개팅 어때요
+              이번주 러빈지옥 에피소드
             </Text>
-            <EpisodeThumbnail episodeNumber={1} title="러빈지옥에 오신걸 환영해요" />
+            <EpisodeThumbnail
+              episodeNumber={currentEpisodeConfig.number}
+              title={currentEpisodeConfig.thumbnailTitle}
+              onPress={handlePressEpisodeThumbnail}
+            />
           </View>
         </View>
       </ScrollView>
