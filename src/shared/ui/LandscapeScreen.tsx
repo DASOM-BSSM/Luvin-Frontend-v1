@@ -13,9 +13,9 @@ export default function LandscapeScreen({ children }: LandscapeScreenProps) {
   useLandscapeScreenOrientation();
 
   return (
-    <View className="flex-1 items-center justify-center bg-default-bg">
+    <View className="flex-1 bg-default-bg">
       <StatusBar hidden />
-      <SafeAreaView className="flex-1" edges={['top', 'bottom', 'left', 'right']}>
+      <SafeAreaView className="flex-1 w-full" edges={['top', 'bottom', 'left', 'right']}>
         {children}
       </SafeAreaView>
     </View>
