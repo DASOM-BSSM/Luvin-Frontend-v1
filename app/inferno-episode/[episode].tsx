@@ -41,11 +41,19 @@ export default function InfernoEpisodeScreen() {
     router.back();
   };
 
+  const handleBackToInfernoPress = () => {
+    router.replace('/(tabs)/inferno');
+  };
+
   if (episodeNumber === 1) {
     return (
       <LandscapeScreen>
         {ep1Step === 'start' && (
-          <EpisodeStartScreen episode={episodeConfig} onPressStart={() => setEp1Step('systemIntro')} />
+          <EpisodeStartScreen
+            episode={episodeConfig}
+            onPressBack={handleBackToInfernoPress}
+            onPressStart={() => setEp1Step('systemIntro')}
+          />
         )}
         {ep1Step === 'systemIntro' && (
           <View className="flex-1">
@@ -74,7 +82,11 @@ export default function InfernoEpisodeScreen() {
   return (
     <LandscapeScreen>
       {simpleStep === 'start' && (
-        <EpisodeStartScreen episode={episodeConfig} onPressStart={() => setSimpleStep('hostExplain')} />
+        <EpisodeStartScreen
+          episode={episodeConfig}
+          onPressBack={handleBackToInfernoPress}
+          onPressStart={() => setSimpleStep('hostExplain')}
+        />
       )}
       {simpleStep === 'hostExplain' && (
         <EpisodeHostExplainScreen episode={episodeConfig} onEndEpisode={handleEndEpisode} />
