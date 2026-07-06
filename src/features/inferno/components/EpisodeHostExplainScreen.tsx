@@ -6,12 +6,14 @@ import ChoiceButton from '@/src/shared/ui/ChoiceButton';
 
 interface EpisodeHostExplainScreenProps {
   episode: EpisodeConfig;
-  onEndEpisode: () => void;
+  actionLabel?: string;
+  onPressAction: () => void;
 }
 
 export default function EpisodeHostExplainScreen({
   episode,
-  onEndEpisode,
+  actionLabel = '에피소드 끝내기',
+  onPressAction,
 }: EpisodeHostExplainScreenProps) {
   return (
     <View className="flex-1 items-center justify-center px-8">
@@ -29,7 +31,7 @@ export default function EpisodeHostExplainScreen({
             textClassName="text-body-s"
           />
         )}
-        <ChoiceButton label="에피소드 끝내기" selected onPress={onEndEpisode} />
+        <ChoiceButton label={actionLabel} selected onPress={onPressAction} />
       </View>
     </View>
   );

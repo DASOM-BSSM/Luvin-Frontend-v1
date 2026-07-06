@@ -4,6 +4,10 @@ export const EPISODE_CONFIGS: EpisodeConfig[] = [
   {
     number: 1,
     thumbnailTitle: "러빈지옥에 오신걸 환영해요",
+    hostExplainMessages: [
+      "“안녕하세요 전 러빈지옥 패널이자\n진행을 맡고있는 @@이에요!”",
+      "“앞으로 러빈지옥은 제가 진행할게요!!”",
+    ],
     quoteLines: [
       '"모든 빵들의 처음은 반죽이었어요',
       "어떻게 구워지느냐에 따라 맛도, 모양도 달라지죠.",
@@ -20,6 +24,7 @@ export const EPISODE_CONFIGS: EpisodeConfig[] = [
   {
     number: 2,
     thumbnailTitle: "첫인상 투표 결과를 알려드릴게요",
+    hostExplainMessages: ["“지난 에피소드 이후 진행한\n첫인상 투표 결과를 알려드릴게요”"],
     quoteLines: [
       '"처음 만난 순간,',
       "반죽의 온도가 조금씩 달라지기 시작했어요.",

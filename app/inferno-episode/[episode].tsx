@@ -14,7 +14,7 @@ import LandscapeScreen from '@/src/shared/ui/LandscapeScreen';
 
 const EPISODE_CAST_SIZE = 6;
 
-type Ep1Step = 'start' | 'systemIntro' | 'castIntro' | 'vote';
+type Ep1Step = 'start' | 'hostExplain' | 'systemIntro' | 'castIntro' | 'vote';
 type SimpleStep = 'start' | 'hostExplain';
 
 function NextStepLink({ onPress }: { onPress: () => void }) {
@@ -52,7 +52,14 @@ export default function InfernoEpisodeScreen() {
           <EpisodeStartScreen
             episode={episodeConfig}
             onPressBack={handleBackToInfernoPress}
-            onPressStart={() => setEp1Step('systemIntro')}
+            onPressStart={() => setEp1Step('hostExplain')}
+          />
+        )}
+        {ep1Step === 'hostExplain' && (
+          <EpisodeHostExplainScreen
+            episode={episodeConfig}
+            actionLabel="다음"
+            onPressAction={() => setEp1Step('systemIntro')}
           />
         )}
         {ep1Step === 'systemIntro' && (
@@ -89,7 +96,7 @@ export default function InfernoEpisodeScreen() {
         />
       )}
       {simpleStep === 'hostExplain' && (
-        <EpisodeHostExplainScreen episode={episodeConfig} onEndEpisode={handleEndEpisode} />
+        <EpisodeHostExplainScreen episode={episodeConfig} onPressAction={handleEndEpisode} />
       )}
     </LandscapeScreen>
   );
