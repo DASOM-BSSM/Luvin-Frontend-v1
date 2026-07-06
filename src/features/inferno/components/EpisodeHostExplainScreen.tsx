@@ -1,7 +1,8 @@
 import { View } from 'react-native';
 
-import InfernoHostIntro from '@/src/features/inferno/components/InfernoHostIntro';
+import TypewriterTextLines from '@/src/features/inferno/components/TypewriterTextLines';
 import type { EpisodeConfig } from '@/src/features/inferno/types';
+import AvatarCharacter from '@/src/shared/ui/AvatarCharacter';
 import ChoiceButton from '@/src/shared/ui/ChoiceButton';
 
 interface EpisodeHostExplainScreenProps {
@@ -23,13 +24,16 @@ export default function EpisodeHostExplainScreen({
         }`}
       >
         {episode.hostExplainMessages && (
-          <InfernoHostIntro
-            message={episode.hostExplainMessages}
-            className="flex-1"
-            avatarClassName="w-28 aspect-[86/128.2]"
-            bubbleClassName="self-start rounded-br-chat rounded-tl-chat rounded-tr-chat px-6 py-3"
-            textClassName="text-body-s"
-          />
+          <View className="flex-1 flex-row items-center self-center">
+            <AvatarCharacter className="w-28 aspect-[86/128.2]" />
+            <TypewriterTextLines
+              lines={episode.hostExplainMessages}
+              variant="comment"
+              containerClassName="flex-1 gap-2"
+              bubbleClassName="self-start rounded-br-chat rounded-tl-chat rounded-tr-chat px-6 py-3"
+              textClassName="text-body-s"
+            />
+          </View>
         )}
         <ChoiceButton label={actionLabel} selected onPress={onPressAction} />
       </View>
