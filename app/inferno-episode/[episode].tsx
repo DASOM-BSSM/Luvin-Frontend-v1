@@ -5,6 +5,7 @@ import { Pressable, Text, View } from 'react-native';
 import Episode2FlowScreen from '@/src/features/inferno/components/Episode2FlowScreen';
 import CastIntroScreen from '@/src/features/inferno/components/CastIntroScreen';
 import EpisodeHostExplainScreen from '@/src/features/inferno/components/EpisodeHostExplainScreen';
+import EpisodeLaterFlowScreen from '@/src/features/inferno/components/EpisodeLaterFlowScreen';
 import EpisodeStartScreen from '@/src/features/inferno/components/EpisodeStartScreen';
 import FirstImpressionVoteScreen from '@/src/features/inferno/components/FirstImpressionVoteScreen';
 import InfernoSystemIntro from '@/src/features/inferno/components/InfernoSystemIntro';
@@ -91,6 +92,18 @@ export default function InfernoEpisodeScreen() {
     return (
       <LandscapeScreen>
         <Episode2FlowScreen
+          episode={episodeConfig}
+          onEndEpisode={handleEndEpisode}
+          onPressBack={handleBackToInfernoPress}
+        />
+      </LandscapeScreen>
+    );
+  }
+
+  if (episodeNumber >= 3 && episodeNumber <= 7) {
+    return (
+      <LandscapeScreen>
+        <EpisodeLaterFlowScreen
           episode={episodeConfig}
           onEndEpisode={handleEndEpisode}
           onPressBack={handleBackToInfernoPress}
