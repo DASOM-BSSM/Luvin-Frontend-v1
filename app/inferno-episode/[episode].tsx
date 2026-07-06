@@ -2,8 +2,10 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import Episode2FlowScreen from '@/src/features/inferno/components/Episode2FlowScreen';
 import CastIntroScreen from '@/src/features/inferno/components/CastIntroScreen';
 import EpisodeHostExplainScreen from '@/src/features/inferno/components/EpisodeHostExplainScreen';
+import EpisodeLaterFlowScreen from '@/src/features/inferno/components/EpisodeLaterFlowScreen';
 import EpisodeStartScreen from '@/src/features/inferno/components/EpisodeStartScreen';
 import FirstImpressionVoteScreen from '@/src/features/inferno/components/FirstImpressionVoteScreen';
 import InfernoSystemIntro from '@/src/features/inferno/components/InfernoSystemIntro';
@@ -14,7 +16,7 @@ import LandscapeScreen from '@/src/shared/ui/LandscapeScreen';
 
 const EPISODE_CAST_SIZE = 6;
 
-type Ep1Step = 'start' | 'systemIntro' | 'castIntro' | 'vote';
+type Ep1Step = 'start' | 'hostExplain' | 'systemIntro' | 'castIntro' | 'vote';
 type SimpleStep = 'start' | 'hostExplain';
 
 function NextStepLink({ onPress }: { onPress: () => void }) {
@@ -41,11 +43,26 @@ export default function InfernoEpisodeScreen() {
     router.back();
   };
 
+  const handleBackToInfernoPress = () => {
+    router.replace('/(tabs)/inferno');
+  };
+
   if (episodeNumber === 1) {
     return (
       <LandscapeScreen>
         {ep1Step === 'start' && (
-          <EpisodeStartScreen episode={episodeConfig} onPressStart={() => setEp1Step('systemIntro')} />
+          <EpisodeStartScreen
+            episode={episodeConfig}
+            onPressBack={handleBackToInfernoPress}
+            onPressStart={() => setEp1Step('hostExplain')}
+          />
+        )}
+        {ep1Step === 'hostExplain' && (
+          <EpisodeHostExplainScreen
+            episode={episodeConfig}
+            actionLabel="다음"
+            onPressAction={() => setEp1Step('systemIntro')}
+          />
         )}
         {ep1Step === 'systemIntro' && (
           <View className="flex-1">
@@ -71,13 +88,41 @@ export default function InfernoEpisodeScreen() {
     );
   }
 
+  if (episodeNumber === 2) {
+    return (
+      <LandscapeScreen>
+        <Episode2FlowScreen
+          episode={episodeConfig}
+          onEndEpisode={handleEndEpisode}
+          onPressBack={handleBackToInfernoPress}
+        />
+      </LandscapeScreen>
+    );
+  }
+
+  if (episodeNumber >= 3 && episodeNumber <= 7) {
+    return (
+      <LandscapeScreen>
+        <EpisodeLaterFlowScreen
+          episode={episodeConfig}
+          onEndEpisode={handleEndEpisode}
+          onPressBack={handleBackToInfernoPress}
+        />
+      </LandscapeScreen>
+    );
+  }
+
   return (
     <LandscapeScreen>
       {simpleStep === 'start' && (
-        <EpisodeStartScreen episode={episodeConfig} onPressStart={() => setSimpleStep('hostExplain')} />
+        <EpisodeStartScreen
+          episode={episodeConfig}
+          onPressBack={handleBackToInfernoPress}
+          onPressStart={() => setSimpleStep('hostExplain')}
+        />
       )}
       {simpleStep === 'hostExplain' && (
-        <EpisodeHostExplainScreen episode={episodeConfig} onEndEpisode={handleEndEpisode} />
+        <EpisodeHostExplainScreen episode={episodeConfig} onPressAction={handleEndEpisode} />
       )}
     </LandscapeScreen>
   );

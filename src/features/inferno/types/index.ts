@@ -2,6 +2,12 @@ export type ChatRoom = 'oven' | 'trolley';
 export type ChatSender = 'people' | 'me';
 export type ChatStatus = 'before' | 'now';
 
+export interface InfernoChatMessage {
+  sender: string;
+  message: string;
+  mine?: boolean;
+}
+
 export interface EpisodeConfig {
   number: number;
   /** Shown inside the dashed REC thumbnail, e.g. "러빈지옥에 오신걸 환영해요" */
