@@ -2,6 +2,7 @@ import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
+import Episode2FlowScreen from '@/src/features/inferno/components/Episode2FlowScreen';
 import CastIntroScreen from '@/src/features/inferno/components/CastIntroScreen';
 import EpisodeHostExplainScreen from '@/src/features/inferno/components/EpisodeHostExplainScreen';
 import EpisodeStartScreen from '@/src/features/inferno/components/EpisodeStartScreen';
@@ -82,6 +83,18 @@ export default function InfernoEpisodeScreen() {
             onEndEpisode={handleEndEpisode}
           />
         )}
+      </LandscapeScreen>
+    );
+  }
+
+  if (episodeNumber === 2) {
+    return (
+      <LandscapeScreen>
+        <Episode2FlowScreen
+          episode={episodeConfig}
+          onEndEpisode={handleEndEpisode}
+          onPressBack={handleBackToInfernoPress}
+        />
       </LandscapeScreen>
     );
   }
