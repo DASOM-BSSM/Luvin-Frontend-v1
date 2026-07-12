@@ -20,7 +20,7 @@ export default function SurveyOptionButton({
   return (
     <Pressable className="w-full" onPress={handlePress}>
       <View
-        className={`w-full aspect-[50/11] justify-center gap-1 rounded-xl px-[9%] ${
+        className={`w-full justify-center gap-1 rounded-xl px-[9%] py-4 ${
           selected ? 'bg-yellow-200' : 'bg-default-card'
         }`}
       >
@@ -30,6 +30,7 @@ export default function SurveyOptionButton({
         <Text className="font-yde-street-bold text-heading-h4 text-default-black">
           {option.label}
         </Text>
+        <Text className="font-yde-street-light text-body-xs text-text-muted">{option.description}</Text>
       </View>
     </Pressable>
   );

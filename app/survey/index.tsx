@@ -1,40 +1,47 @@
 import { router } from 'expo-router';
-import { useState } from 'react';
+import { useEffect } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 import { SURVEY_QUESTIONS } from '@/src/features/survey/constants/questions';
 import SurveyOptionButton from '@/src/features/survey/components/SurveyOptionButton';
+import { useSurveyStore } from '@/src/features/survey/store/survey.store';
 import type { SurveyOption } from '@/src/features/survey/types';
 import AppScreen from '@/src/shared/ui/AppScreen';
 import BottomNav from '@/src/shared/ui/BottomNav';
 import useBottomNavRoute from '@/src/shared/hooks/useBottomNavRoute';
 
 export default function SurveyScreen() {
-  const [questionIndex, setQuestionIndex] = useState(0);
-  const [selectedOption, setSelectedOption] = useState<SurveyOption | null>(null);
   const handleTabChange = useBottomNavRoute();
-  const question = SURVEY_QUESTIONS[questionIndex];
+  const answers = useSurveyStore((state) => state.answers);
+  const answerQuestion = useSurveyStore((state) => state.answerQuestion);
+  const currentQuestionIndex = useSurveyStore((state) => state.currentQuestionIndex);
+  const goToNextQuestion = useSurveyStore((state) => state.goToNextQuestion);
+  const goToPreviousQuestion = useSurveyStore((state) => state.goToPreviousQuestion);
+  const resetSurvey = useSurveyStore((state) => state.resetSurvey);
+  const question = SURVEY_QUESTIONS[currentQuestionIndex];
+
+  useEffect(() => {
+    resetSurvey();
+  }, [resetSurvey]);
 
   const handleBackPress = () => {
-    if (questionIndex === 0) {
+    if (currentQuestionIndex === 0) {
       router.back();
       return;
     }
 
-    setQuestionIndex((currentIndex) => currentIndex - 1);
-    setSelectedOption(null);
+    goToPreviousQuestion();
   };
 
   const handleOptionPress = (option: SurveyOption) => {
-    setSelectedOption(option);
+    answerQuestion(question.id, option);
 
-    if (questionIndex < SURVEY_QUESTIONS.length - 1) {
-      setQuestionIndex((currentIndex) => currentIndex + 1);
-      setSelectedOption(null);
+    if (currentQuestionIndex < SURVEY_QUESTIONS.length - 1) {
+      goToNextQuestion();
       return;
     }
 
-    router.replace('/?survey=done');
+    router.replace('/survey/result');
   };
 
   return (
@@ -66,7 +73,7 @@ export default function SurveyScreen() {
               <SurveyOptionButton
                 key={option.id}
                 option={option}
-                selected={selectedOption?.id === option.id}
+                selected={answers[question.id] === option.id}
                 onPress={handleOptionPress}
               />
             ))}
