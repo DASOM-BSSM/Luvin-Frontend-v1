@@ -1,6 +1,7 @@
-import { Pressable, Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import Episode2MatchingDiagram from '@/src/features/inferno/components/Episode2MatchingDiagram';
+import NextStepLink from '@/src/features/inferno/components/NextStepLink';
 import {
   getEpisode2MatchAnnouncement,
   type Episode2Match,
@@ -31,9 +32,7 @@ export default function Episode2MatchingScreen({
           <CommentBubble text={comment} textClassName="text-body-s" className="px-7 py-3" />
         </View>
       </View>
-      <Pressable className="self-end px-8 py-4" onPress={onPressNext}>
-        <Text className="font-yde-street-light text-body-xs text-text-muted">다음</Text>
-      </Pressable>
+      <NextStepLink onPress={onPressNext} />
     </View>
   );
 }

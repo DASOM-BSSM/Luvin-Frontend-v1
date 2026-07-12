@@ -2,8 +2,8 @@ import { Text, View } from 'react-native';
 
 import AvatarCharacter from '@/src/shared/ui/AvatarCharacter';
 import ButterCharacter from '@/src/shared/ui/ButterCharacter';
-import ChoiceButton from '@/src/shared/ui/ChoiceButton';
 import CommentBubble from '@/src/shared/ui/CommentBubble';
+import NextStepLink from '@/src/features/inferno/components/NextStepLink';
 
 interface EpisodeCatfishIntroScreenProps {
   onPressNext: () => void;
@@ -52,9 +52,7 @@ export default function EpisodeCatfishIntroScreen({
           />
         </View>
       </View>
-      <View className="items-end px-8 py-4">
-        <ChoiceButton label="다음" selected onPress={onPressNext} />
-      </View>
+      <NextStepLink onPress={onPressNext} />
     </View>
   );
 }

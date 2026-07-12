@@ -1,4 +1,6 @@
-import { Pressable, Text, View } from 'react-native';
+import { Pressable, Text } from 'react-native';
+
+import NextStepLink from '@/src/features/inferno/components/NextStepLink';
 
 interface Episode2ConversationActionsProps {
   onPressBackToSituation?: () => void;
@@ -10,10 +12,10 @@ export default function Episode2ConversationActions({
   onPressNext,
 }: Episode2ConversationActionsProps) {
   return (
-    <View className="flex-row items-center justify-end gap-3 px-8 py-4">
+    <>
       {onPressBackToSituation && (
         <Pressable
-          className="rounded-xl border border-yellow-400 bg-yellow-200 px-4 py-1.5"
+          className="absolute bottom-4 right-20 rounded-xl border border-yellow-400 bg-yellow-200 px-4 py-1.5"
           onPress={onPressBackToSituation}
         >
           <Text className="font-yde-street-light text-body-xs text-default-black">
@@ -21,9 +23,7 @@ export default function Episode2ConversationActions({
           </Text>
         </Pressable>
       )}
-      <Pressable onPress={onPressNext}>
-        <Text className="font-yde-street-light text-body-xs text-text-muted">다음</Text>
-      </Pressable>
-    </View>
+      <NextStepLink onPress={onPressNext} />
+    </>
   );
 }

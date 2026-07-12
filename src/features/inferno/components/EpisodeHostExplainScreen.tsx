@@ -1,5 +1,6 @@
 import { View } from 'react-native';
 
+import NextStepLink from '@/src/features/inferno/components/NextStepLink';
 import TypewriterTextLines from '@/src/features/inferno/components/TypewriterTextLines';
 import type { EpisodeConfig } from '@/src/features/inferno/types';
 import AvatarCharacter from '@/src/shared/ui/AvatarCharacter';
@@ -35,8 +36,9 @@ export default function EpisodeHostExplainScreen({
             />
           </View>
         )}
-        <ChoiceButton label={actionLabel} selected onPress={onPressAction} />
+        {actionLabel !== '다음' && <ChoiceButton label={actionLabel} selected onPress={onPressAction} />}
       </View>
+      {actionLabel === '다음' && <NextStepLink onPress={onPressAction} />}
     </View>
   );
 }

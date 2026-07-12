@@ -1,7 +1,7 @@
 import { Text, View } from 'react-native';
 
 import BreadCharacter from '@/src/shared/ui/BreadCharacter';
-import ChoiceButton from '@/src/shared/ui/ChoiceButton';
+import NextStepLink from '@/src/features/inferno/components/NextStepLink';
 import type { BreadTypeId } from '@/src/shared/types/bread';
 
 interface EpisodeVoteNoticeScreenProps {
@@ -29,8 +29,8 @@ export default function EpisodeVoteNoticeScreen({
             ))}
           </View>
         </View>
-        <ChoiceButton label="다음" selected onPress={onPressNext} />
       </View>
+      <NextStepLink onPress={onPressNext} />
     </View>
   );
 }

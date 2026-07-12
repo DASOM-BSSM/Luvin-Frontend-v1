@@ -1,6 +1,6 @@
 import { router, useLocalSearchParams } from 'expo-router';
 import { useState } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { View } from 'react-native';
 
 import Episode2FlowScreen from '@/src/features/inferno/components/Episode2FlowScreen';
 import CastIntroScreen from '@/src/features/inferno/components/CastIntroScreen';
@@ -9,6 +9,7 @@ import EpisodeLaterFlowScreen from '@/src/features/inferno/components/EpisodeLat
 import EpisodeStartScreen from '@/src/features/inferno/components/EpisodeStartScreen';
 import FirstImpressionVoteScreen from '@/src/features/inferno/components/FirstImpressionVoteScreen';
 import InfernoSystemIntro from '@/src/features/inferno/components/InfernoSystemIntro';
+import NextStepLink from '@/src/features/inferno/components/NextStepLink';
 import { pickRandomCastMembers } from '@/src/features/inferno/data/castMembers';
 import { getEpisodeConfig } from '@/src/features/inferno/data/episodes';
 import { useInfernoStore } from '@/src/features/inferno/store/inferno.store';
@@ -18,14 +19,6 @@ const EPISODE_CAST_SIZE = 6;
 
 type Ep1Step = 'start' | 'hostExplain' | 'systemIntro' | 'castIntro' | 'vote';
 type SimpleStep = 'start' | 'hostExplain';
-
-function NextStepLink({ onPress }: { onPress: () => void }) {
-  return (
-    <Pressable className="absolute bottom-4 right-8" onPress={onPress}>
-      <Text className="font-yde-street-light text-body-xs text-text-muted">다음</Text>
-    </Pressable>
-  );
-}
 
 export default function InfernoEpisodeScreen() {
   const { episode } = useLocalSearchParams<{ episode: string }>();

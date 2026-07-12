@@ -1,11 +1,12 @@
 import { router } from 'expo-router';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
 import { SURVEY_QUESTIONS } from '@/src/features/survey/constants/questions';
 import SurveyOptionButton from '@/src/features/survey/components/SurveyOptionButton';
 import { useSurveyStore } from '@/src/features/survey/store/survey.store';
 import type { SurveyOption } from '@/src/features/survey/types';
 import AppScreen from '@/src/shared/ui/AppScreen';
+import BackLink from '@/src/shared/ui/BackLink';
 import BottomNav from '@/src/shared/ui/BottomNav';
 import useBottomNavRoute from '@/src/shared/hooks/useBottomNavRoute';
 
@@ -42,9 +43,7 @@ export default function SurveyQuestionsScreen() {
     <AppScreen footer={<BottomNav activeTab="avatar" onTabChange={handleTabChange} />}>
       <View className="flex-1 gap-8 pt-1">
         <View className="w-full flex-row items-center justify-between">
-          <Pressable onPress={handleBackPress}>
-            <Text className="font-yde-street-bold text-heading-h3 text-default-black">‹</Text>
-          </Pressable>
+          <BackLink onPress={handleBackPress} />
           <Text className="font-yde-street-light text-body-s text-default-black">
             {String(question.id).padStart(2, '0')} / 20
           </Text>

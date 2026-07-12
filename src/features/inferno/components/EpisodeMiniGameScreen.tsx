@@ -1,7 +1,7 @@
 import { Pressable, Text, View } from 'react-native';
 
 import BreadCharacter from '@/src/shared/ui/BreadCharacter';
-import ChoiceButton from '@/src/shared/ui/ChoiceButton';
+import NextStepLink from '@/src/features/inferno/components/NextStepLink';
 
 type MiniGameKind = 'memory' | 'quiz';
 
@@ -77,9 +77,7 @@ export default function EpisodeMiniGameScreen({ kind, onComplete }: EpisodeMiniG
       <View className="h-6" />
       {isQuiz ? <QuizGame onComplete={onComplete} /> : <MemoryGame />}
       {!isQuiz && (
-        <View className="items-end px-8 py-4">
-          <ChoiceButton label="다음" selected onPress={onComplete} />
-        </View>
+        <NextStepLink onPress={onComplete} />
       )}
     </View>
   );
