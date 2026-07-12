@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 interface ChoiceButtonProps {
@@ -14,25 +13,10 @@ export default function ChoiceButton({
   className = 'self-start',
   onPress,
 }: ChoiceButtonProps) {
-  const [hovered, setHovered] = useState(false);
-
-  const handleHoverIn = () => {
-    setHovered(true);
-  };
-
-  const handleHoverOut = () => {
-    setHovered(false);
-  };
-
   return (
-    <Pressable
-      className={className}
-      onPress={onPress}
-      onHoverIn={handleHoverIn}
-      onHoverOut={handleHoverOut}
-    >
+    <Pressable className={className} onPress={onPress}>
       {({ pressed }) => {
-        const isActive = selected || hovered || pressed;
+        const isActive = selected || pressed;
         return (
           <View
             className={`items-center justify-center rounded-xl border px-5 py-1.5 ${

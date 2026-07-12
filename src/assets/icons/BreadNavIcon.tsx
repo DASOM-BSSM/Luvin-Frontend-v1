@@ -3,7 +3,7 @@ import Svg, { Path } from 'react-native-svg';
 
 const InteropPath = cssInterop(Path, {
   className: {
-    target: true,
+    target: 'style' as unknown as true,
     nativeStyleToProp: { fill: true },
   },
 });

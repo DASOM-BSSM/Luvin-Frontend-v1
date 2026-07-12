@@ -1,4 +1,3 @@
-import { useState } from "react";
 import { Pressable, Text, View } from "react-native";
 
 type PrimaryButtonTextWeight = "light" | "bold";
@@ -29,20 +28,10 @@ export default function PrimaryButton({
   textSize = "body-s",
   onPress,
 }: PrimaryButtonProps) {
-  const [hovered, setHovered] = useState(false);
-
-  const handleHoverIn = () => {
-    setHovered(true);
-  };
-
-  const handleHoverOut = () => {
-    setHovered(false);
-  };
-
   return (
-    <Pressable className="w-full" onPress={onPress} onHoverIn={handleHoverIn} onHoverOut={handleHoverOut}>
+    <Pressable className="w-full" onPress={onPress}>
       {({ pressed }) => {
-        const isActive = selected || hovered || pressed;
+        const isActive = selected || pressed;
         return (
           <View
             className={`w-full aspect-[60/7] items-center justify-center rounded-xl px-4 py-2 ${

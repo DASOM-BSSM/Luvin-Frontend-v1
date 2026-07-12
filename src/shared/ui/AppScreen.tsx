@@ -10,9 +10,9 @@ interface AppScreenProps {
 export default function AppScreen({ children, footer }: AppScreenProps) {
   return (
     <SafeAreaView className="flex-1 bg-default-bg" edges={['top', 'bottom', 'left', 'right']}>
-      <View className="flex-1 items-center">
+      <View className="min-h-0 flex-1 items-center">
         <View className="h-[2.4%]" />
-        <View className="w-[85%] flex-1">{children}</View>
+        <View className="min-h-0 w-[85%] flex-1">{children}</View>
         {footer}
         <View className="h-[1%]" />
       </View>

@@ -1,4 +1,3 @@
-import { useState } from 'react';
 import { Pressable, Text, View } from 'react-native';
 
 interface OutlineLinkButtonProps {
@@ -7,20 +6,10 @@ interface OutlineLinkButtonProps {
 }
 
 export default function OutlineLinkButton({ label, onPress }: OutlineLinkButtonProps) {
-  const [hovered, setHovered] = useState(false);
-
-  const handleHoverIn = () => {
-    setHovered(true);
-  };
-
-  const handleHoverOut = () => {
-    setHovered(false);
-  };
-
   return (
-    <Pressable onPress={onPress} onHoverIn={handleHoverIn} onHoverOut={handleHoverOut}>
+    <Pressable onPress={onPress}>
       {({ pressed }) => {
-        const isActive = hovered || pressed;
+        const isActive = pressed;
         return (
           <View
             className={`items-end justify-end rounded-xl border border-default-black px-5 py-1.5 ${
