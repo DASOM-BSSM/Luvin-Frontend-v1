@@ -1,84 +1,52 @@
 import { router } from 'expo-router';
-import { useEffect } from 'react';
-import { Pressable, Text, View } from 'react-native';
+import { Text, View } from 'react-native';
 
-import { SURVEY_QUESTIONS } from '@/src/features/survey/constants/questions';
-import SurveyOptionButton from '@/src/features/survey/components/SurveyOptionButton';
 import { useSurveyStore } from '@/src/features/survey/store/survey.store';
-import type { SurveyOption } from '@/src/features/survey/types';
+import useBottomNavRoute from '@/src/shared/hooks/useBottomNavRoute';
 import AppScreen from '@/src/shared/ui/AppScreen';
 import BottomNav from '@/src/shared/ui/BottomNav';
-import useBottomNavRoute from '@/src/shared/hooks/useBottomNavRoute';
+import BreadCharacter from '@/src/shared/ui/BreadCharacter';
+import PrimaryButton from '@/src/shared/ui/PrimaryButton';
 
-export default function SurveyScreen() {
+export default function SurveyIndexScreen() {
   const handleTabChange = useBottomNavRoute();
-  const answers = useSurveyStore((state) => state.answers);
-  const answerQuestion = useSurveyStore((state) => state.answerQuestion);
-  const currentQuestionIndex = useSurveyStore((state) => state.currentQuestionIndex);
-  const goToNextQuestion = useSurveyStore((state) => state.goToNextQuestion);
-  const goToPreviousQuestion = useSurveyStore((state) => state.goToPreviousQuestion);
   const resetSurvey = useSurveyStore((state) => state.resetSurvey);
-  const question = SURVEY_QUESTIONS[currentQuestionIndex];
 
-  useEffect(() => {
+  const handleStartSurveyPress = () => {
     resetSurvey();
-  }, [resetSurvey]);
-
-  const handleBackPress = () => {
-    if (currentQuestionIndex === 0) {
-      router.back();
-      return;
-    }
-
-    goToPreviousQuestion();
-  };
-
-  const handleOptionPress = (option: SurveyOption) => {
-    answerQuestion(question.id, option);
-
-    if (currentQuestionIndex < SURVEY_QUESTIONS.length - 1) {
-      goToNextQuestion();
-      return;
-    }
-
-    router.replace('/survey/result');
+    router.push('/survey/questions');
   };
 
   return (
-    <AppScreen
-      footer={<BottomNav activeTab="avatar" onTabChange={handleTabChange} />}
-    >
-      <View className="flex-1 gap-8 pt-1">
-        <View className="w-full flex-row items-center justify-between">
-          <Pressable onPress={handleBackPress}>
-            <Text className="font-yde-street-bold text-heading-h3 text-default-black">‹</Text>
-          </Pressable>
-          <Text className="font-yde-street-light text-body-s text-default-black">
-            {String(question.id).padStart(2, '0')} / 20
-          </Text>
-        </View>
-
-        <View className="w-full flex-1 justify-between pb-[10%]">
-          <View className="gap-2 px-1">
-            <Text className="font-yde-street-light text-body-xs text-default-black">
-              반죽 만들기 {String(question.id).padStart(2, '0')}.
+    <AppScreen footer={<BottomNav activeTab="avatar" onTabChange={handleTabChange} />}>
+      <View className="flex-1 justify-center gap-8">
+        <View className="items-center gap-5">
+          <BreadCharacter type="cream" variant="dough" className="h-36 w-44" />
+          <View className="items-center gap-2 px-4">
+            <Text className="font-yde-street-light text-body-xs text-brown-500">나만의 반죽 만들기</Text>
+            <Text className="text-center font-yde-street-bold text-heading-h2 text-text-primary">
+              사랑할 때의 나를 알아볼 시간이에요
             </Text>
-            <Text className="font-yde-street-bold text-heading-h2 text-default-black">
-              {question.question}
+            <Text className="text-center font-yde-street-light text-body-s text-text-muted">
+              20개의 질문에 답하면 13개 성격 변수를 분석해{`\n`}나와 가장 닮은 빵 유형을 찾아드려요.
             </Text>
           </View>
-
-          <View className="gap-3">
-            {question.options.map((option) => (
-              <SurveyOptionButton
-                key={option.id}
-                option={option}
-                selected={answers[question.id] === option.id}
-                onPress={handleOptionPress}
-              />
-            ))}
+        </View>
+        <View className="gap-3 rounded-xl bg-default-card px-6 py-5">
+          <View className="flex-row items-center justify-between">
+            <Text className="font-yde-street-light text-body-s text-text-primary">질문 수</Text>
+            <Text className="font-yde-street-bold text-body-s text-brown-500">20개</Text>
+          </View>
+          <View className="flex-row items-center justify-between">
+            <Text className="font-yde-street-light text-body-s text-text-primary">선택지</Text>
+            <Text className="font-yde-street-bold text-body-s text-brown-500">각 3개</Text>
+          </View>
+          <View className="flex-row items-center justify-between">
+            <Text className="font-yde-street-light text-body-s text-text-primary">분석 변수</Text>
+            <Text className="font-yde-street-bold text-body-s text-brown-500">13가지</Text>
           </View>
         </View>
+        <PrimaryButton label="설문 시작하기" selected textWeight="bold" onPress={handleStartSurveyPress} />
       </View>
     </AppScreen>
   );
