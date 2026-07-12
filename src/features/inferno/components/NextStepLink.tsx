@@ -13,7 +13,7 @@ export default function NextStepLink({ onPress }: NextStepLinkProps) {
       hitSlop={8}
       onPress={onPress}
     >
-      <Text className="font-yde-street-light text-body-xs text-text-muted">다음</Text>
+      <Text className="font-yde-street-bold text-heading-h4 text-text-muted">다음</Text>
     </Pressable>
   );
 }

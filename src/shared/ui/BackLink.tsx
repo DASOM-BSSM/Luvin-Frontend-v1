@@ -13,7 +13,7 @@ export default function BackLink({ onPress }: BackLinkProps) {
       hitSlop={8}
       onPress={onPress}
     >
-      <Text className="font-yde-street-bold text-heading-h3 text-default-black">‹</Text>
+      <Text className="font-yde-street-bold text-heading-h1 text-default-black">‹</Text>
     </Pressable>
   );
 }
