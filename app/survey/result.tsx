@@ -22,6 +22,10 @@ export default function SurveyResultScreen() {
     router.replace('/survey');
   };
 
+  const handleExitPress = () => {
+    router.replace('/');
+  };
+
   if (!topResult) {
     return (
       <AppScreen>
@@ -32,7 +36,10 @@ export default function SurveyResultScreen() {
               빵 유형별 13개 성격 기준값이 등록되면{`\n`}코사인 유사도로 결과를 계산해 보여드릴게요.
             </Text>
           </View>
-          <PrimaryButton label="처음부터 다시하기" selected textWeight="bold" onPress={handleRestartPress} />
+          <View className="gap-3">
+            <PrimaryButton label="처음부터 다시하기" selected textWeight="bold" onPress={handleRestartPress} />
+            <PrimaryButton label="나가기" tone="muted" textWeight="bold" onPress={handleExitPress} />
+          </View>
         </View>
       </AppScreen>
     );
@@ -60,7 +67,10 @@ export default function SurveyResultScreen() {
             <BreadTypeResultCard key={result.bread.id} rank={index + 2} result={result} />
           ))}
         </View>
-        <PrimaryButton label="다시 반죽 만들기" selected textWeight="bold" onPress={handleRestartPress} />
+        <View className="gap-3">
+          <PrimaryButton label="다시 반죽 만들기" selected textWeight="bold" onPress={handleRestartPress} />
+          <PrimaryButton label="나가기" tone="muted" textWeight="bold" onPress={handleExitPress} />
+        </View>
       </ScrollView>
     </AppScreen>
   );

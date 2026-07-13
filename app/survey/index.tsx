@@ -45,6 +45,10 @@ export default function SurveyIndexScreen() {
             <Text className="font-yde-street-light text-body-s text-text-primary">분석 변수</Text>
             <Text className="font-yde-street-bold text-body-s text-brown-500">13가지</Text>
           </View>
+          <View className="flex-row items-center justify-between">
+            <Text className="font-yde-street-light text-body-s text-text-primary">예상 소요시간</Text>
+            <Text className="font-yde-street-bold text-body-s text-brown-500">약 5~15분</Text>
+          </View>
         </View>
         <PrimaryButton label="설문 시작하기" selected textWeight="bold" onPress={handleStartSurveyPress} />
       </View>
