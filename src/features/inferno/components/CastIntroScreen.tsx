@@ -38,7 +38,7 @@ export default function CastIntroScreen({ castMembers }: CastIntroScreenProps) {
             ))}
           </View>
 
-          <View className="flex-1 gap-3 rounded-chat bg-neutral-200 p-5">
+          <View className="min-h-44 flex-1 gap-3 rounded-chat bg-neutral-200 p-5">
             <View className="flex-row items-center gap-4">
               <BreadCharacter type={selectedMember.type} variant="dough" className="h-14 w-20" />
               <View className="flex-1 gap-0.5">

@@ -5,7 +5,7 @@ export const EPISODE_CONFIGS: EpisodeConfig[] = [
     number: 1,
     thumbnailTitle: "러빈지옥에 오신걸 환영해요",
     hostExplainMessages: [
-      "“안녕하세요 전 러빈지옥 패널이자\n진행을 맡고있는 @@이에요!”",
+      "“안녕하세요 전 러빈지옥 패널이자\n진행을 맡고있는 다솜이에요!”",
       "“앞으로 러빈지옥은 제가 진행할게요!!”",
     ],
     quoteLines: [

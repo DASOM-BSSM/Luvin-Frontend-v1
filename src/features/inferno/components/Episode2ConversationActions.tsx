@@ -15,12 +15,13 @@ export default function Episode2ConversationActions({
     <>
       {onPressBackToSituation && (
         <Pressable
-          className="absolute bottom-4 right-20 rounded-xl border border-yellow-400 bg-yellow-200 px-4 py-1.5"
+          accessibilityLabel="이전 단계로 이동"
+          accessibilityRole="button"
+          className="absolute bottom-2 left-4 h-11 w-11 items-center justify-center"
+          hitSlop={8}
           onPress={onPressBackToSituation}
         >
-          <Text className="font-yde-street-light text-body-xs text-default-black">
-            상황 선택으로 돌아가기
-          </Text>
+          <Text className="font-yde-street-bold text-heading-h4 text-text-muted">이전</Text>
         </Pressable>
       )}
       <NextStepLink onPress={onPressNext} />

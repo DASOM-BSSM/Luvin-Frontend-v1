@@ -2,14 +2,18 @@ import { Pressable, Text } from 'react-native';
 
 interface BackLinkProps {
   onPress: () => void;
+  className?: string;
 }
 
-export default function BackLink({ onPress }: BackLinkProps) {
+export default function BackLink({
+  onPress,
+  className = 'h-11 w-11 items-center justify-center',
+}: BackLinkProps) {
   return (
     <Pressable
       accessibilityLabel="이전 화면으로 이동"
       accessibilityRole="button"
-      className="h-11 w-11 items-center justify-center"
+      className={className}
       hitSlop={8}
       onPress={onPress}
     >

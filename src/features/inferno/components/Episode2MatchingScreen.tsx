@@ -24,7 +24,7 @@ export default function Episode2MatchingScreen({
   const comment = getEpisode2MatchAnnouncement(matches);
 
   return (
-    <View className="flex-1 items-center justify-center px-11">
+    <View className="flex-1 items-center justify-center px-8">
       <View className="w-full max-w-3xl flex-row items-center justify-between">
         <Episode2MatchingDiagram votes={votes} matches={matches} />
         <View className="flex-row items-center gap-4">

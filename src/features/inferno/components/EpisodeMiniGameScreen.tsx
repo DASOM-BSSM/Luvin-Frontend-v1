@@ -65,20 +65,19 @@ export default function EpisodeMiniGameScreen({ kind, onComplete }: EpisodeMiniG
   const isQuiz = kind === 'quiz';
 
   return (
-    <View className="flex-1 justify-center px-11">
-      <View className="gap-2">
-        <Text className="font-yde-street-bold text-heading-h2 text-default-black">
-          사용자 참여형 미니게임이에요
-        </Text>
-        <Text className="font-yde-street-light text-body-s text-brown-1000">
-          {isQuiz ? '간단한 상식 퀴즈 게임이에요' : '같은 짝을 가진 카드를 기억하고 맞추는 게임이에요'}
-        </Text>
+    <View className="flex-1 items-center justify-center px-8">
+      <View className="w-full max-w-3xl items-center gap-6">
+        <View className="w-full gap-1">
+          <Text className="font-yde-street-bold text-heading-h2 text-default-black">
+            사용자 참여형 미니게임이에요
+          </Text>
+          <Text className="font-yde-street-light text-body-s text-brown-1000">
+            {isQuiz ? '간단한 상식 퀴즈 게임이에요' : '같은 짝을 가진 카드를 기억하고 맞추는 게임이에요'}
+          </Text>
+        </View>
+        {isQuiz ? <QuizGame onComplete={onComplete} /> : <MemoryGame />}
       </View>
-      <View className="h-6" />
-      {isQuiz ? <QuizGame onComplete={onComplete} /> : <MemoryGame />}
-      {!isQuiz && (
-        <NextStepLink onPress={onComplete} />
-      )}
+      {!isQuiz && <NextStepLink onPress={onComplete} />}
     </View>
   );
 }

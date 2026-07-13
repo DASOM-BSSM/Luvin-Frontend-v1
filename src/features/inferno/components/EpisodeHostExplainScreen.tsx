@@ -18,7 +18,7 @@ export default function EpisodeHostExplainScreen({
   onPressAction,
 }: EpisodeHostExplainScreenProps) {
   return (
-    <View className="flex-1 items-center justify-center px-8">
+    <View className="flex-1 items-center justify-center px-8 pt-24">
       <View
         className={`w-full max-w-3xl flex-row items-center gap-8 ${
           episode.hostExplainMessages ? 'justify-between' : 'justify-center'

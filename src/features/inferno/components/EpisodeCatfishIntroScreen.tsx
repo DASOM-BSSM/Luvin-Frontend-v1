@@ -13,10 +13,10 @@ export default function EpisodeCatfishIntroScreen({
   onPressNext,
 }: EpisodeCatfishIntroScreenProps) {
   return (
-    <View className="flex-1 justify-center px-11">
-      <View className="w-full flex-row items-center justify-between">
+    <View className="flex-1 items-center justify-center px-8">
+      <View className="w-full max-w-3xl flex-row items-center justify-between">
         <View className="gap-6">
-          <View className="gap-2">
+          <View className="gap-1">
             <Text className="font-yde-street-bold text-heading-h2 text-default-black">
               러빈지옥 메기를 소개할게요
             </Text>

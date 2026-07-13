@@ -23,7 +23,7 @@ export default function InfernoSystemIntro() {
             <Image
               source={require('@/src/assets/images/trolley.png')}
               contentFit="contain"
-              className="h-40 w-32"
+              className="h-40 w-60"
             />
           </View>
 

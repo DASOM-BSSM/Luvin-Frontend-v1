@@ -5,14 +5,43 @@ import Episode2SituationScreen from '@/src/features/inferno/components/Episode2S
 import EpisodeCatfishIntroScreen from '@/src/features/inferno/components/EpisodeCatfishIntroScreen';
 import EpisodeHostExplainScreen from '@/src/features/inferno/components/EpisodeHostExplainScreen';
 import EpisodeLaterConversationScreen from '@/src/features/inferno/components/EpisodeLaterConversationScreen';
+import EpisodeMiniGameResultScreen from '@/src/features/inferno/components/EpisodeMiniGameResultScreen';
 import EpisodeMiniGameScreen from '@/src/features/inferno/components/EpisodeMiniGameScreen';
 import EpisodeStartScreen from '@/src/features/inferno/components/EpisodeStartScreen';
-import EpisodeVoteNoticeScreen from '@/src/features/inferno/components/EpisodeVoteNoticeScreen';
+import EpisodeVoteScreen from '@/src/features/inferno/components/EpisodeVoteScreen';
+import { pickRandomCastMembers } from '@/src/features/inferno/data/castMembers';
 import {
   EPISODE2_DUMMY_VOTES,
   getEpisode2Matches,
 } from '@/src/features/inferno/data/episode2Matching';
 import type { EpisodeConfig } from '@/src/features/inferno/types';
+
+const EPISODE_CAST_SIZE = 6;
+
+interface VoteStepCopy {
+  ballotLabel: string;
+  ballotTitle: string;
+  quoteText: string;
+  resultTitle: string;
+  resultSubtitle: string;
+}
+
+const VOTE_STEP_COPY: Record<'dateVote' | 'finalVote', VoteStepCopy> = {
+  dateVote: {
+    ballotLabel: '-마음 투표 용지-',
+    ballotTitle: '함께하고 싶은 반죽 고르기',
+    quoteText: '당신과 계속 이야기하고 싶어요',
+    resultTitle: '같이 가고 싶은 사람 투표를 진행해요',
+    resultSubtitle: '마음이 가는 반죽에게 투표하세요',
+  },
+  finalVote: {
+    ballotLabel: '-최종 투표 용지-',
+    ballotTitle: '마지막으로 함께하고 싶은 반죽 고르기',
+    quoteText: '당신과 끝까지 함께하고 싶어요',
+    resultTitle: '최종 투표가 진행돼요',
+    resultSubtitle: '가장 마음이 가는 반죽에게 투표하세요',
+  },
+};
 
 type LaterStep =
   | 'start'
@@ -20,7 +49,7 @@ type LaterStep =
   | 'catfishIntro'
   | 'catfishChat'
   | 'memoryGame'
-  | 'partnerVote'
+  | 'gameResult'
   | 'allConversation'
   | 'dateVote'
   | 'matching'
@@ -38,7 +67,7 @@ interface EpisodeLaterFlowScreenProps {
 const EPISODE2_MATCHES = getEpisode2Matches(EPISODE2_DUMMY_VOTES);
 const EPISODE_STEPS: Record<number, LaterStep[]> = {
   3: ['start', 'hostExplain', 'catfishIntro', 'catfishChat'],
-  4: ['start', 'hostExplain', 'memoryGame', 'partnerVote', 'ovenChat'],
+  4: ['start', 'hostExplain', 'memoryGame', 'gameResult', 'ovenChat'],
   5: ['start', 'hostExplain', 'allConversation', 'dateVote'],
   6: ['start', 'hostExplain', 'matching', 'situation'],
   7: ['start', 'hostExplain', 'allConversation', 'finalVote'],
@@ -51,6 +80,10 @@ export default function EpisodeLaterFlowScreen({
 }: EpisodeLaterFlowScreenProps) {
   const steps = EPISODE_STEPS[episode.number] ?? EPISODE_STEPS[5];
   const [step, setStep] = useState<LaterStep>(steps[0]);
+  const [castMembers] = useState(() => pickRandomCastMembers(EPISODE_CAST_SIZE));
+  const [isWinner] = useState(() => Math.random() < 0.5);
+  const gameWinner = castMembers[0];
+  const gameWinnerChoices = castMembers.slice(1, 4);
 
   const handleNext = () => {
     const currentIndex = steps.indexOf(step);
@@ -92,12 +125,31 @@ export default function EpisodeLaterFlowScreen({
     return <EpisodeMiniGameScreen kind="memory" onComplete={handleNext} />;
   }
 
-  if (step === 'partnerVote' || step === 'dateVote' || step === 'finalVote') {
+  if (step === 'gameResult') {
     return (
-      <EpisodeVoteNoticeScreen
-        description={step === 'finalVote' ? 'AI 분신이 마지막 선택을 진행해요' : '반죽들의 선택이 진행되고 있어요'}
+      <EpisodeMiniGameResultScreen
+        isWinner={isWinner}
+        winner={gameWinner}
+        choices={gameWinnerChoices}
         onPressNext={handleNext}
-        title={step === 'finalVote' ? '최종 투표가 시작돼요' : '같이 가고 싶은 사람 투표가 시작돼요'}
+      />
+    );
+  }
+
+  if (step === 'dateVote' || step === 'finalVote') {
+    const copy = VOTE_STEP_COPY[step];
+
+    return (
+      <EpisodeVoteScreen
+        castMembers={castMembers}
+        ballotLabel={copy.ballotLabel}
+        ballotTitle={copy.ballotTitle}
+        quoteText={copy.quoteText}
+        resultTitle={copy.resultTitle}
+        resultSubtitle={copy.resultSubtitle}
+        endNoticeLines={episode.endNoticeLines}
+        endActionLabel={step === 'finalVote' ? '에피소드 끝내기' : '다음'}
+        onPressEndAction={handleNext}
       />
     );
   }

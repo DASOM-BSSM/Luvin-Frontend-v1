@@ -13,12 +13,7 @@ export interface CastMember {
 }
 
 const HASHTAGS_BY_TYPE: Record<BreadTypeId, string[]> = {
-  cream: [
-    '감정 숨기는 척 하는데 좋아하면 티 남',
-    '정이 많고 혼자 의미부여 많이 함',
-    '안정적인 타입이랑 잘 맞음',
-    '밀당 심한 사람 만나면 터짐',
-  ],
+  cream: ['감정 숨기는 척 하는데 좋아하면 티 남', '정이 많고 혼자 의미부여 많이 함', '안정적인 타입이랑 잘 맞음'],
   redbean: [
     '표현이 서툴지만 행동으로 챙김',
     '한번 마음을 주면 오래가고 안정감이 높은 편',
