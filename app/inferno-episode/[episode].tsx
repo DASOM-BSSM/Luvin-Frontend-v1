@@ -11,7 +11,7 @@ import FirstImpressionVoteScreen from '@/src/features/inferno/components/FirstIm
 import InfernoSystemIntro from '@/src/features/inferno/components/InfernoSystemIntro';
 import NextStepLink from '@/src/features/inferno/components/NextStepLink';
 import { pickRandomCastMembers } from '@/src/features/inferno/data/castMembers';
-import { getEpisodeConfig } from '@/src/features/inferno/data/episodes';
+import { EPISODE_CONFIGS, getEpisodeConfig } from '@/src/features/inferno/data/episodes';
 import { useInfernoStore } from '@/src/features/inferno/store/inferno.store';
 import LandscapeScreen from '@/src/shared/ui/LandscapeScreen';
 
@@ -19,6 +19,12 @@ const EPISODE_CAST_SIZE = 6;
 
 type Ep1Step = 'start' | 'hostExplain' | 'systemIntro' | 'castIntro' | 'vote';
 type SimpleStep = 'start' | 'hostExplain';
+
+const createEpisodeStaticParam = (episode: { number: number }) => ({ episode: String(episode.number) });
+
+export function generateStaticParams() {
+  return EPISODE_CONFIGS.map(createEpisodeStaticParam);
+}
 
 export default function InfernoEpisodeScreen() {
   const { episode } = useLocalSearchParams<{ episode: string }>();
